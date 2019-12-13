@@ -1,13 +1,36 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import {
+	Segment,
+	Container,
+	Header,
+	Image,
+	Button,
+	Icon,
+} from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
-const HomePage = (props) => {
-  return (
-    <div>
-<h1>Home Page</h1>
-    </div>
-  )
-}
+const HomePage = ({history}) => {
+	return (
+		<div>
+			<Segment inverted textAlign="center" vertical className="masthead">
+				<Container text>
+					<Header as="h1" inverted>
+						<Image
+							size="massive"
+							src="/assets/logo.png"
+							alt="logo"
+							style={{ marginBottom: 12 }}
+						/>
+						CodEvent
+					</Header>
+					<Button onClick={() => history.push('/events')} size="huge" inverted>
+						Get started
+						<Icon name="right arrow" inverted />
+					</Button>
+				</Container>
+			</Segment>
+		</div>
+	);
+};
 
-export default HomePage
-
+export default HomePage;
