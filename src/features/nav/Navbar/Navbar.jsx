@@ -21,8 +21,8 @@ const Navbar = props => {
 				<Menu.Item as={NavLink} exact to="/" header>
 					<img src="/assets/logo.png" alt="logo" /> CodEvents
 				</Menu.Item>
-				<Menu.Item as={NavLink} to="/events" name="Events" />
-				<Menu.Item as={NavLink} to="/people" name="People" />
+				<Menu.Item as={NavLink} exact to="/events" name="Events" />
+				<Menu.Item as={NavLink} exact to="/people" name="People" />
 				<Menu.Item>
 					<Button
 						as={Link}
