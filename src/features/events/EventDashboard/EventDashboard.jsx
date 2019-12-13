@@ -67,8 +67,7 @@ class EventDashboard extends Component {
 	render() {
 		const { events, isOpen } = this.state;
 		return (
-			<div>
-				<Grid>
+				<Grid stackable columns={2}>
 					<Grid.Column width={10}>
 						<EventList events={events} />
 					</Grid.Column>
@@ -81,7 +80,6 @@ class EventDashboard extends Component {
 						{isOpen && <EventForm cancelFormInput={this.handleIsOpenToggle} />}
 					</Grid.Column>
 				</Grid>
-			</div>
 		);
 	}
 }

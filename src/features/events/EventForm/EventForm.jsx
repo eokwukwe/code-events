@@ -9,7 +9,7 @@ class EventForm extends Component {
 				<Form>
 					<Form.Field>
 						<label>Event Title</label>
-						<input placeholder="First Name" />
+						<input placeholder="Event Title" />
 					</Form.Field>
 					<Form.Field>
 						<label>Event Date</label>

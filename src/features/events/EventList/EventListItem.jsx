@@ -10,9 +10,9 @@ const EventsListItem = ({event}) => {
 					<Item>
 						<Item.Image size="tiny" circular src={event.hostPhotoURL} />
 						<Item.Content>
-							<Item.Header as="a">{event.title}</Item.Header>
+							<Item.Header>{event.title}</Item.Header>
 							<Item.Description>
-								Hosted by <a>{event.hostedBy}</a>
+								Hosted by <span>{event.hostedBy}</span>
 							</Item.Description>
 						</Item.Content>
 					</Item>
