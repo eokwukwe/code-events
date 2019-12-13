@@ -8,10 +8,8 @@ const Navbar = props => {
 	const initialState = { authenticated: false };
 	const [isAuth, setIsAuth] = useState(initialState);
 
-	console.log('navbarrrrrr', props);
-
-
 	const handleLogin = () => setIsAuth({ authenticated: true });
+
 	const handleSignedOut = () => {
 		setIsAuth({ authenticated: false });
 		props.history.push('/');
@@ -21,7 +19,7 @@ const Navbar = props => {
 		<Menu inverted fixed="top">
 			<Container>
 				<Menu.Item as={NavLink} exact to="/" header>
-					<img src="assets/logo.png" alt="logo" /> CodEvents
+					<img src="/assets/logo.png" alt="logo" /> CodEvents
 				</Menu.Item>
 				<Menu.Item as={NavLink} to="/events" name="Events" />
 				<Menu.Item as={NavLink} to="/people" name="People" />
