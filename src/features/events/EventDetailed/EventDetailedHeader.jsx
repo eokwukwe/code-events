@@ -44,11 +44,11 @@ export const EventDetailedHeader = () => {
 			</Segment>
 
 			<Segment attached="bottom">
-				<Button size="mini">Cancel My Place</Button>
-				<Button size="mini" color="teal">
+				<Button compact size="mini">Cancel My Place</Button>
+				<Button compact size="mini" color="teal">
 					JOIN THIS EVENT
 				</Button>
-				<Button size="mini" color="orange" floated="right">
+				<Button compact size="mini" color="orange" floated="right">
 					Manage Event
 				</Button>
 			</Segment>
