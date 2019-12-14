@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import cuid from 'cuid';
 import { connect } from 'react-redux';
 import { Segment, Form, Button, Grid } from 'semantic-ui-react';
+import { reduxForm, Field } from 'redux-form';
 
 import { createEvent, updateEvent } from '../eventActions';
 
@@ -122,4 +123,7 @@ const mapStateToProps = (state, ownProps) => {
 	return { event };
 };
 
-export default connect(mapStateToProps, actions)(EventForm);
+export default connect(
+	mapStateToProps,
+	actions,
+)(reduxForm({ form: 'eventForm' })(EventForm));
