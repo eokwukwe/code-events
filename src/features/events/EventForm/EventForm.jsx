@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
 import cuid from 'cuid';
 import { connect } from 'react-redux';
-import { Segment, Form, Button, Grid } from 'semantic-ui-react';
+import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';
 
 import { createEvent, updateEvent } from '../eventActions';
+import TextInput from '../../../app/common/form/TextInput';
+import TextArea from '../../../app/common/form/TextArea';
+import SelectInput from '../../../app/common/form/SelectInput';
 
+const category = [
+		{key: 'drinks', text: 'Drinks', value: 'drinks'},
+		{key: 'culture', text: 'Culture', value: 'culture'},
+		{key: 'film', text: 'Film', value: 'film'},
+		{key: 'food', text: 'Food', value: 'food'},
+		{key: 'music', text: 'Music', value: 'music'},
+		{key: 'travel', text: 'Travel', value: 'travel'},
+];
 class EventForm extends Component {
-	state = { ...this.props.event };
-
-	componentDidMount() {
-		if (this.props.selectedEvent !== null) {
-			this.setState({
-				...this.props.selectedEvent,
-			});
-		}
-	}
-
-	handleInputChange = ({ target: { name, value } }) => {
-		this.setState({
-			[name]: value,
-		});
-	};
-
 	handleFormSubmit = e => {
 		e.preventDefault();
 		if (this.state.id) {
@@ -40,58 +35,45 @@ class EventForm extends Component {
 	};
 
 	render() {
-		const { title, date, city, venue, hostedBy } = this.state;
 		return (
 			<Grid centered>
 				<Grid.Column mobile={16} tablet={10} computer={8}>
 					<Segment>
+						<Header sub color="teal" content="Event Details" />
 						<Form onSubmit={this.handleFormSubmit}>
-							<Form.Field>
-								<label>Event Title</label>
-								<input
-									onChange={this.handleInputChange}
-									value={title}
-									name="title"
-									placeholder="Event Title"
-								/>
-							</Form.Field>
-							<Form.Field>
-								<label>Event Date</label>
-								<input
-									onChange={this.handleInputChange}
-									value={date}
-									type="date"
-									name="date"
-									placeholder="Event Date"
-								/>
-							</Form.Field>
-							<Form.Field>
-								<label>City</label>
-								<input
-									onChange={this.handleInputChange}
-									value={city}
-									name="city"
-									placeholder="City event is taking place"
-								/>
-							</Form.Field>
-							<Form.Field>
-								<label>Venue</label>
-								<input
-									onChange={this.handleInputChange}
-									value={venue}
-									name="venue"
-									placeholder="Enter the Venue of the event"
-								/>
-							</Form.Field>
-							<Form.Field>
-								<label>Hosted By</label>
-								<input
-									onChange={this.handleInputChange}
-									value={hostedBy}
-									name="hostedBy"
-									placeholder="Enter the name of person hosting"
-								/>
-							</Form.Field>
+							<Field
+								name="title"
+								component={TextInput}
+								placeholder="Event title"
+							/>
+							<Field
+								name="category"
+								component={SelectInput}
+								options={category}
+								placeholder="Select event category"
+							/>
+							<Field
+								name="description"
+								component={TextArea}
+								rows={3}
+								placeholder="Event description"
+							/>
+							<Header sub color="teal" content="Event Location Details" />
+							<Field
+								name="city"
+								component={TextInput}
+								placeholder="Event city"
+							/>
+							<Field
+								name="venue"
+								component={TextInput}
+								placeholder="Event venue"
+							/>
+							<Field
+								name="date"
+								component={TextInput}
+								placeholder="Event date"
+							/>
 							<Button positive type="submit">
 								Submit
 							</Button>
