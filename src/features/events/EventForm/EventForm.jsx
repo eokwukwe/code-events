@@ -3,6 +3,12 @@ import cuid from 'cuid';
 import { connect } from 'react-redux';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';
+import {
+	combineValidators,
+	composeValidators,
+	isRequired,
+	hasLengthGreaterThan,
+} from 'revalidate';
 
 import { createEvent, updateEvent } from '../eventActions';
 import TextInput from '../../../app/common/form/TextInput';
@@ -17,6 +23,20 @@ const category = [
 	{ key: 'music', text: 'Music', value: 'music' },
 	{ key: 'travel', text: 'Travel', value: 'travel' },
 ];
+
+const validate = combineValidators({
+	title: isRequired({ message: 'Event title is require' }),
+	category: isRequired({ message: 'Event category is require' }),
+	description: composeValidators(
+		isRequired({ message: 'Event description is required' }),
+		hasLengthGreaterThan(4)({
+			message: 'Event description needs to be at least 5 characters',
+		}),
+	)(),
+	city: isRequired('city'),
+	venue: isRequired('venue'),
+});
+
 class EventForm extends Component {
 	onFormSubmit = values => {
 		if (this.props.initialValues.id) {
@@ -35,7 +55,14 @@ class EventForm extends Component {
 	};
 
 	render() {
-		const { history, initialValues } = this.props;
+		const {
+			history,
+			initialValues,
+			invalid,
+			submitting,
+			pristine,
+		} = this.props;
+
 		return (
 			<Grid centered>
 				<Grid.Column mobile={16} tablet={10} computer={8}>
@@ -75,7 +102,11 @@ class EventForm extends Component {
 								component={TextInput}
 								placeholder="Event date"
 							/>
-							<Button positive type="submit">
+							<Button
+								disabled={invalid || submitting || pristine}
+								positive
+								type="submit"
+							>
 								Submit
 							</Button>
 							<Button
@@ -111,4 +142,4 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
 	mapStateToProps,
 	actions,
-)(reduxForm({ form: 'eventForm' })(EventForm));
+)(reduxForm({ form: 'eventForm', validate })(EventForm));
