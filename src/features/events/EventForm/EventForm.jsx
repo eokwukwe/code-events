@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { Segment, Form, Button, Grid } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { createEvent, updateEvent, deleteEvent } from '../eventActions';
 
 class EventForm extends Component {
-	state = {
-		title: '',
-		date: '',
-		city: '',
-		venue: '',
-		hostedBy: '',
-	};
+	state = { ...this.props.event };
 
 	componentDidMount() {
 		if (this.props.selectedEvent !== null) {
@@ -34,7 +30,6 @@ class EventForm extends Component {
 	};
 
 	render() {
-		const { cancelFormInput } = this.props;
 		const { title, date, city, venue, hostedBy } = this.state;
 		return (
 			<Grid centered>
@@ -90,7 +85,7 @@ class EventForm extends Component {
 							<Button positive type="submit">
 								Submit
 							</Button>
-							<Button onClick={cancelFormInput} type="button">
+							<Button onClick={this.props.history.goBack} type="button">
 								Cancel
 							</Button>
 						</Form>
@@ -101,4 +96,21 @@ class EventForm extends Component {
 	}
 }
 
-export default EventForm;
+const actions = { createEvent, updateEvent, deleteEvent };
+
+const mapStateToProps = (state, ownProps) => {
+	const eventId = ownProps.match.params.id;
+	let event = {
+		title: '',
+		date: '',
+		city: '',
+		venue: '',
+		hostedBy: '',
+	};
+	if (eventId && state.events.length > 0) {
+		event = state.events.filter(event => event.id === eventId)[0];
+	}
+	return { event };
+};
+
+export default connect(mapStateToProps, actions)(EventForm);
