@@ -3,14 +3,14 @@ import { Segment, Item, Icon, Button, List } from 'semantic-ui-react';
 import EventListAttendee from './EventListAttendee';
 import { Link } from 'react-router-dom';
 
-const EventsListItem = ({ event, selectEvent, deleteEvent }) => {
+const EventsListItem = ({ event, deleteEvent }) => {
 	return (
 		<Segment.Group>
 			<Segment>
-				<Item.Group>
+				<Item.Group unstackable>
 					<Item>
 						<Item.Image size="tiny" circular src={event.hostPhotoURL} />
-						<Item.Content>
+						<Item.Content verticalAlign="middle">
 							<Item.Header>{event.title}</Item.Header>
 							<Item.Description>
 								Hosted by <span>{event.hostedBy}</span>
@@ -33,7 +33,7 @@ const EventsListItem = ({ event, selectEvent, deleteEvent }) => {
 				</List>
 			</Segment>
 			<Segment clearing>
-				<span>{event.description}</span>
+				<div>{event.description}</div>
 				<Button
 					onClick={() => deleteEvent(event.id)}
 					color="red"
