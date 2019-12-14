@@ -10,37 +10,38 @@ import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
 
 const category = [
-		{key: 'drinks', text: 'Drinks', value: 'drinks'},
-		{key: 'culture', text: 'Culture', value: 'culture'},
-		{key: 'film', text: 'Film', value: 'film'},
-		{key: 'food', text: 'Food', value: 'food'},
-		{key: 'music', text: 'Music', value: 'music'},
-		{key: 'travel', text: 'Travel', value: 'travel'},
+	{ key: 'drinks', text: 'Drinks', value: 'drinks' },
+	{ key: 'culture', text: 'Culture', value: 'culture' },
+	{ key: 'film', text: 'Film', value: 'film' },
+	{ key: 'food', text: 'Food', value: 'food' },
+	{ key: 'music', text: 'Music', value: 'music' },
+	{ key: 'travel', text: 'Travel', value: 'travel' },
 ];
 class EventForm extends Component {
-	handleFormSubmit = e => {
-		e.preventDefault();
-		if (this.state.id) {
-			this.props.updateEvent(this.state);
-			this.props.history.push(`/events/${this.state.id}`);
+	onFormSubmit = values => {
+		if (this.props.initialValues.id) {
+			this.props.updateEvent(values);
+			this.props.history.push(`/events/${this.props.initialValues.id}`);
 		} else {
 			const newEvent = {
-				...this.state,
+				...values,
 				id: cuid(),
 				hostPhotoURL: '/assets/user.png',
+				hostedBy: 'Denja',
 			};
 			this.props.createEvent(newEvent);
-			this.props.history.push('/events');
+			this.props.history.push(`/events/${newEvent.id}`);
 		}
 	};
 
 	render() {
+		const { history, initialValues } = this.props;
 		return (
 			<Grid centered>
 				<Grid.Column mobile={16} tablet={10} computer={8}>
 					<Segment>
 						<Header sub color="teal" content="Event Details" />
-						<Form onSubmit={this.handleFormSubmit}>
+						<Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
 							<Field
 								name="title"
 								component={TextInput}
@@ -77,7 +78,14 @@ class EventForm extends Component {
 							<Button positive type="submit">
 								Submit
 							</Button>
-							<Button onClick={this.props.history.goBack} type="button">
+							<Button
+								onClick={
+									initialValues.id
+										? () => history.push(`/events/${initialValues.id}`)
+										: () => history.push('/events')
+								}
+								type="button"
+							>
 								Cancel
 							</Button>
 						</Form>
@@ -92,17 +100,12 @@ const actions = { createEvent, updateEvent };
 
 const mapStateToProps = (state, ownProps) => {
 	const eventId = ownProps.match.params.id;
-	let event = {
-		title: '',
-		date: '',
-		city: '',
-		venue: '',
-		hostedBy: '',
-	};
+	let event = {};
+
 	if (eventId && state.events.length > 0) {
 		event = state.events.filter(event => event.id === eventId)[0];
 	}
-	return { event };
+	return { initialValues: event };
 };
 
 export default connect(

@@ -53,7 +53,7 @@ export const EventDetailedHeader = ({ event }) => {
 				</Button>
 				<Button
 					as={Link}
-					to={`/manageEvent/${event.id}`}
+					to={`/editEvent/${event.id}`}
 					compact
 					size="mini"
 					color="orange"
