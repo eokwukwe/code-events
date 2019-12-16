@@ -14,6 +14,7 @@ import { createEvent, updateEvent } from '../eventActions';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
+import DateInput from '../../../app/common/form/DateInput';
 
 const category = [
 	{ key: 'drinks', text: 'Drinks', value: 'drinks' },
@@ -35,6 +36,7 @@ const validate = combineValidators({
 	)(),
 	city: isRequired('city'),
 	venue: isRequired('venue'),
+	date: isRequired('date'),
 });
 
 class EventForm extends Component {
@@ -99,7 +101,10 @@ class EventForm extends Component {
 							/>
 							<Field
 								name="date"
-								component={TextInput}
+								component={DateInput}
+								dateFormat="dd LLL yyyy h:mm a"
+								showTimeSelect
+								timeFormat="HH:mm"
 								placeholder="Event date"
 							/>
 							<Button
