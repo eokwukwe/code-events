@@ -13,7 +13,7 @@ class EventDashboard extends Component {
 	render() {
 		const { events } = this.props;
 		return (
-			<Grid stackable columns={2}>
+			<Grid stackable reversed="mobile" columns={2}>
 				<Grid.Column width={10}>
 					<EventList events={events} deleteEvent={this.handleDeleteEvent} />
 				</Grid.Column>
