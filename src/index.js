@@ -8,8 +8,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from './app/store/configureStore';
 import ScrollToTop from './app/common/util/ScrollToTop';
+import { loadEvents } from './features/events/eventActions';
 
 const store = configureStore();
+
+store.dispatch(loadEvents())
 
 // Configure hotmodule replacement
 const rootEl = document.getElementById('root');
