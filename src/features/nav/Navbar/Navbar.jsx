@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
@@ -8,14 +8,13 @@ import SignedInMenu from '../Menus/SignedInMenu';
 import { openModal } from '../../modals/modalActions';
 import { logout } from '../../auth/authActions';
 
-const Navbar = ({openModal, auth, logout, history}) => {
-	
+const Navbar = ({ openModal, auth, logout, history }) => {
 	const handleLogin = () => openModal('LoginModal');
 	const handleRegister = () => openModal('RegisterModal');
 
 	const handleSignedOut = () => {
-		logout()
-		history.push('/');
+		logout();
+		history.push('/events');
 	};
 
 	return (
@@ -25,18 +24,22 @@ const Navbar = ({openModal, auth, logout, history}) => {
 					<img src="/assets/logo.png" alt="logo" /> CodEvents
 				</Menu.Item>
 				<Menu.Item as={NavLink} exact to="/events" name="Events" />
-				<Menu.Item as={NavLink} exact to="/people" name="People" />
-				<Menu.Item>
-					<Button
-						as={Link}
-						to="/createEvent"
-						floated="right"
-						positive
-						inverted
-						compact
-						content="Create Event"
-					/>
-				</Menu.Item>
+				{auth.authenticated && (
+					<React.Fragment>
+						<Menu.Item as={NavLink} exact to="/people" name="People" />
+						<Menu.Item>
+							<Button
+								as={Link}
+								to="/createEvent"
+								floated="right"
+								positive
+								inverted
+								compact
+								content="Create Event"
+							/>
+						</Menu.Item>
+					</React.Fragment>
+				)}
 				{auth.authenticated ? (
 					<SignedInMenu
 						logout={handleSignedOut}
