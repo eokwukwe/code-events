@@ -32,7 +32,7 @@ export const EventDetailedHeader = ({ event }) => {
 								<Header
 									size="huge"
 									content={event.title}
-									style={{ color: 'white' }}
+									style={{ color: 'white', textTransform: 'capitalize' }}
 								/>
 								<p>{event.date}</p>
 								<p>
