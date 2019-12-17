@@ -6,17 +6,18 @@ import { NavLink, Link, withRouter } from 'react-router-dom';
 import SignedOutMenu from '../Menus/SignedOutMenu';
 import SignedInMenu from '../Menus/SignedInMenu';
 import { openModal } from '../../modals/modalActions';
+import { logout } from '../../auth/authActions';
 
-const Navbar = props => {
-	const initialState = { authenticated: false };
-	const [isAuth, setIsAuth] = useState(initialState);
+const Navbar = ({openModal, auth, logout, history}) => {
+	// const initialState = { authenticated: false };
+	// const [isAuth, setIsAuth] = useState(initialState);
 
-	const handleLogin = () => props.openModal('LoginModal');
-	const handleRegister = () => props.openModal('RegisterModal');
+	const handleLogin = () => openModal('LoginModal');
+	const handleRegister = () => openModal('RegisterModal');
 
 	const handleSignedOut = () => {
-		setIsAuth({ authenticated: false });
-		props.history.push('/');
+		logout()
+		history.push('/');
 	};
 
 	return (
@@ -38,8 +39,11 @@ const Navbar = props => {
 						content="Create Event"
 					/>
 				</Menu.Item>
-				{isAuth.authenticated ? (
-					<SignedInMenu signOut={handleSignedOut} />
+				{auth.authenticated ? (
+					<SignedInMenu
+						logout={handleSignedOut}
+						currentUser={auth.currentUser}
+					/>
 				) : (
 					<SignedOutMenu login={handleLogin} register={handleRegister} />
 				)}
@@ -48,6 +52,10 @@ const Navbar = props => {
 	);
 };
 
-const actions = { openModal };
+const actions = { openModal, logout };
 
-export default withRouter(connect(null, actions)(Navbar));
+const mapStateToProps = state => ({
+	auth: state.auth,
+});
+
+export default withRouter(connect(mapStateToProps, actions)(Navbar));
