@@ -9,9 +9,7 @@ import { openModal } from '../../modals/modalActions';
 import { logout } from '../../auth/authActions';
 
 const Navbar = ({openModal, auth, logout, history}) => {
-	// const initialState = { authenticated: false };
-	// const [isAuth, setIsAuth] = useState(initialState);
-
+	
 	const handleLogin = () => openModal('LoginModal');
 	const handleRegister = () => openModal('RegisterModal');
 
