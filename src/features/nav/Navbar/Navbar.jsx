@@ -30,6 +30,7 @@ const Navbar = props => {
 						floated="right"
 						positive
 						inverted
+						compact
 						content="Create Event"
 					/>
 				</Menu.Item>
