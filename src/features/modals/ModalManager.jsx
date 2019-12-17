@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const modalLookup = {};
+import LoginModal from './LoginModal'
+import RegisterModal from './RegisterModal'
+
+const modalLookup = {
+  LoginModal,
+  RegisterModal
+};
 
 const ModalManager = ({ currentModal }) => {
 	let renderedModal;
