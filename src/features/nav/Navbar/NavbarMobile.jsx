@@ -48,6 +48,7 @@ const NavBarMobile = ({
 					<span style={{ fontSize: '1.5rem' }}>CodEvents</span>
 				</Menu.Item>
 				<Menu.Item
+					onClick={handleSidebarHide}
 					as={NavLink}
 					exact
 					to="/events"
@@ -55,8 +56,19 @@ const NavBarMobile = ({
 				/>
 				{auth.authenticated && (
 					<Fragment>
-						<Menu.Item as={NavLink} exact to="/people" name="People" />
-						<Menu.Item as={Link} to="/createEvent" name="Create Event" />
+						<Menu.Item
+							onClick={handleSidebarHide}
+							as={NavLink}
+							exact
+							to="/people"
+							name="People"
+						/>
+						<Menu.Item
+							onClick={handleSidebarHide}
+							as={Link}
+							to="/createEvent"
+							name="Create Event"
+						/>
 					</Fragment>
 				)}
 			</Sidebar>
@@ -69,10 +81,10 @@ const NavBarMobile = ({
 						</Menu.Item>
 						<Menu.Item as={NavLink} exact to="/" header>
 							<img src="/assets/logo128.png" alt="logo" />
-							<span style={{ fontSize: '1.5rem', color: 'white' }}>CodEvents</span>
+							<span style={{ fontSize: '1.5rem', color: 'white' }}>
+								CodEvents
+							</span>
 						</Menu.Item>
-						{/* <Menu.Item as={NavLink} exact to="/events" name="Events" /> */}
-						{/* <Menu.Item as={NavLink} exact to="/people" name="People" /> */}
 						{auth.authenticated ? (
 							<SignedInMenu logout={logout} currentUser={auth.currentUser} />
 						) : (
