@@ -1,7 +1,7 @@
 import React from 'react';
 import { Segment, Image, Item, Button, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 const eventImageStyle = {
 	filter: 'brightness(50%)',
@@ -9,14 +9,18 @@ const eventImageStyle = {
 
 const eventImageTextStyle = {
 	position: 'absolute',
-	bottom: '5%',
-	left: '5%',
+	left: '50%',
+	top: '50%',
+	transform: 'translate(-50%, -50%)',
 	width: '100%',
 	height: 'auto',
 	color: 'white',
 };
 
 export const EventDetailedHeader = ({ event }) => {
+	console.log(window.innerWidth);
+	const isMobile = window.innerWidth <= 767;
+
 	return (
 		<Segment.Group>
 			<Segment basic attached="top" style={{ padding: '0' }}>
@@ -31,12 +35,16 @@ export const EventDetailedHeader = ({ event }) => {
 						<Item>
 							<Item.Content>
 								<Header
-									size="huge"
 									content={event.title}
-									style={{ color: 'white', textTransform: 'capitalize' }}
+									style={{
+										color: 'white',
+										textTransform: 'capitalize',
+										fontSize: isMobile ? '1.5rem' : '2rem'
+									}}
 								/>
 								<p>
-									{event.date && format(new Date(event.date), 'EEE dd MMMM yyyy h:mm a')}
+									{event.date &&
+										format(new Date(event.date), 'EEE dd MMMM yyyy h:mm a')}
 								</p>
 								<p>
 									Hosted by <strong>{event.hostedBy}</strong>

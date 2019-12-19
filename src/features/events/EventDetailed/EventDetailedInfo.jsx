@@ -1,56 +1,56 @@
 import React, { useState } from 'react';
-import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
+import { Segment, Grid, Icon, Button, List } from 'semantic-ui-react';
 import EventDetailedMap from './EventDetailedMap';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 
 export const EventDetailedInfo = ({ event }) => {
 	const [isMapOpen, setIsMapOpen] = useState(false);
-
 	const handleMapOpenToggle = () => setIsMapOpen(!isMapOpen);
 
 	return (
 		<Segment.Group>
 			<Segment attached="top">
-				<Grid>
-					<Grid.Column width={1}>
+				<List divided verticalAlign="middle">
+					<List.Item style={{ padding: '1rem 0' }}>
 						<Icon size="large" color="teal" name="info" />
-					</Grid.Column>
-					<Grid.Column width={15}>
-						<p>{event.description}</p>
-					</Grid.Column>
-				</Grid>
-			</Segment>
-			<Segment attached>
-				<Grid verticalAlign="middle">
-					<Grid.Column width={1}>
-						<Icon name="calendar" size="large" color="teal" />
-					</Grid.Column>
-					<Grid.Column width={15}>
-						<span>
-							{event.date && format(new Date(event.date), 'EEE dd MMMM yyy')} at{' '}
-							{event.date && format(new Date(event.date), 'h:mm a')}
-						</span>
-					</Grid.Column>
-				</Grid>
-			</Segment>
-			<Segment attached>
-				<Grid verticalAlign="middle">
-					<Grid.Column width={1}>
-						<Icon name="marker" size="large" color="teal" />
-					</Grid.Column>
-					<Grid.Column width={11}>
-						<span>{event.venue}</span>
-					</Grid.Column>
-					<Grid.Column width={4}>
-						<Button
-							onClick={handleMapOpenToggle}
-							color="teal"
-							compact
-							size="mini"
-							content={isMapOpen ? 'Hide Map' : 'Show Map'}
-						/>
-					</Grid.Column>
-				</Grid>
+						<List.Content>
+							<List.Description>
+								<p>{event.description}</p>
+							</List.Description>
+						</List.Content>
+					</List.Item>
+
+					<List.Item style={{ padding: '1rem 0' }}>
+						<Icon size="large" color="teal" name="calendar" />
+						<List.Content>
+							<List.Description>
+								<span>
+									{event.date &&
+										format(new Date(event.date), 'EEE dd MMMM yyy')}{' '}
+									at {event.date && format(new Date(event.date), 'h:mm a')}
+								</span>
+							</List.Description>
+						</List.Content>
+					</List.Item>
+
+					<List.Item style={{ padding: '1rem 0' }}>
+						<List.Content floated="right">
+							<Button
+								onClick={handleMapOpenToggle}
+								color="teal"
+								compact
+								size="mini"
+								content={isMapOpen ? 'Hide Map' : 'Show Map'}
+							/>
+						</List.Content>
+						<Icon size="large" color="teal" name="marker" />
+						<List.Content>
+							<List.Description>
+								<span>{event.venue}</span>
+							</List.Description>
+						</List.Content>
+					</List.Item>
+				</List>
 			</Segment>
 			{isMapOpen && (
 				<EventDetailedMap
