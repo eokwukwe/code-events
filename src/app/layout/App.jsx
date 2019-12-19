@@ -3,7 +3,6 @@ import { Container } from 'semantic-ui-react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 
 import HomePage from '../../features/home/HomePage';
-import Navbar from '../../features/nav/Navbar/Navbar';
 import EventForm from '../../features/events/EventForm/EventForm';
 import SettingsDashboard from '../../features/user/Settings/SettingsDashboard';
 import EventDashboard from '../../features/events/EventDashboard/EventDashboard';
