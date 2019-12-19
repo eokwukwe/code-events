@@ -11,6 +11,7 @@ import EventDetailedPage from '../../features/events/EventDetailed/EventDetailed
 import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard';
 import UserDetailedPage from '../../features/user/UserDetailed/UserDetailedPage';
 import ModalManager from '../../features/modals/ModalManager';
+import NavbarContainer from '../../features/nav/Navbar/NavbarContainer';
 
 class App extends Component {
 	render() {
@@ -19,6 +20,26 @@ class App extends Component {
 				<ModalManager />
 				<Route exact path="/" component={HomePage} />
 				<Route
+					path="/(.+)"
+					render={() => (
+						<NavbarContainer>
+							<Container className="main">
+								<Switch key={this.props.location.key}>
+									<Route exact path="/events" component={EventDashboard} />
+									<Route path="/events/:id" component={EventDetailedPage} />
+									<Route path="/people" component={PeopleDashboard} />
+									<Route path="/profile/:id" component={UserDetailedPage} />
+									<Route path="/settings" component={SettingsDashboard} />
+									<Route
+										path={['/createEvent', '/editEvent/:id']}
+										component={EventForm}
+									/>
+								</Switch>
+							</Container>
+						</NavbarContainer>
+					)}
+				/>
+				{/* <Route
 					path="/(.+)"
 					render={() => (
 						<Fragment>
@@ -38,7 +59,7 @@ class App extends Component {
 							</Container>
 						</Fragment>
 					)}
-				/>
+				/> */}
 			</Fragment>
 		);
 	}

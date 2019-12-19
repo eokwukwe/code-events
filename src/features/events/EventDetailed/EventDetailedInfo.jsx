@@ -28,7 +28,7 @@ export const EventDetailedInfo = ({ event }) => {
 					<Grid.Column width={15}>
 						{event.date && (
 							<span>
-								{format(parseISO(event.date), 'EEEE, dd LLLL yyy')} at{' '}
+								{format(parseISO(event.date), 'EEE, dd LLLL yyy')} at{' '}
 								{format(parseISO(event.date), 'h:mm a')}
 							</span>
 						)}
