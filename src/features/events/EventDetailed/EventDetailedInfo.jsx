@@ -26,12 +26,10 @@ export const EventDetailedInfo = ({ event }) => {
 						<Icon name="calendar" size="large" color="teal" />
 					</Grid.Column>
 					<Grid.Column width={15}>
-						{event.date && (
-							<span>
-								{format(parseISO(event.date), 'EEE, dd LLLL yyy')} at{' '}
-								{format(parseISO(event.date), 'h:mm a')}
-							</span>
-						)}
+						<span>
+							{event.date && format(new Date(event.date), 'EEE dd MMMM yyy')} at{' '}
+							{event.date && format(new Date(event.date), 'h:mm a')}
+						</span>
 					</Grid.Column>
 				</Grid>
 			</Segment>

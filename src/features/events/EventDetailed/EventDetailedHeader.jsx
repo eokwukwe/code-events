@@ -36,8 +36,7 @@ export const EventDetailedHeader = ({ event }) => {
 									style={{ color: 'white', textTransform: 'capitalize' }}
 								/>
 								<p>
-									{event.date &&
-										format(parseISO(event.date), 'EEEE, dd LLLL yyy')}
+									{event.date && format(new Date(event.date), 'EEE dd MMMM yyyy h:mm a')}
 								</p>
 								<p>
 									Hosted by <strong>{event.hostedBy}</strong>

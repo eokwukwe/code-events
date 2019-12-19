@@ -23,8 +23,8 @@ const EventsListItem = ({ event, deleteEvent }) => {
 			<Segment>
 				<span>
 					<Icon name="clock" />
-					{format(parseISO(event.date), 'dd LLL yyy')} at{' '}
-					{format(parseISO(event.date), 'h:mm a')} |
+					{format(new Date(event.date), 'EEE dd MMMM yyy')} at{' '}
+					{format(new Date(event.date), 'h:mm a')} |
 					<Icon name="marker" /> {event.venue}
 				</span>
 			</Segment>
