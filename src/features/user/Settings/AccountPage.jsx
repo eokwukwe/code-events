@@ -32,67 +32,72 @@ const AccountPage = ({
 	submitting,
 	handleSubmit,
 	updatePassword,
+	providerId,
 }) => {
 	return (
 		<Segment>
 			<Header dividing size="large" content="Account" />
-			<div>
-				<Header color="teal" sub content="Change password" />
-				{/* <p>Use this form to update your account settings</p> */}
-				<Form onSubmit={handleSubmit(updatePassword)}>
-					<Field
-						width={8}
-						name="newPassword1"
-						type="password"
-						pointing="left"
-						inline={true}
-						component={TextInput}
-						basic={true}
-						placeholder="New Password"
-					/>
-					<Field
-						width={8}
-						name="newPassword2"
-						type="password"
-						inline={true}
-						basic={true}
-						pointing="left"
-						component={TextInput}
-						placeholder="Confirm Password"
-					/>
-					{error && (
-						<Label basic color="red">
-							{error}
-						</Label>
-					)}
-					<Button
-						disabled={invalid || submitting}
-						loading={submitting}
-						size="medium"
-						positive
-						content="Update Password"
-					/>
-				</Form>
-			</div>
+			{providerId && providerId === 'password' && (
+				<div>
+					<Header color="teal" sub content="Change password" />
+					<Form onSubmit={handleSubmit(updatePassword)}>
+						<Field
+							width={8}
+							name="newPassword1"
+							type="password"
+							pointing="left"
+							inline={true}
+							component={TextInput}
+							basic={true}
+							placeholder="New Password"
+						/>
+						<Field
+							width={8}
+							name="newPassword2"
+							type="password"
+							inline={true}
+							basic={true}
+							pointing="left"
+							component={TextInput}
+							placeholder="Confirm Password"
+						/>
+						{error && (
+							<Label basic color="red">
+								{error}
+							</Label>
+						)}
+						<Button
+							disabled={invalid || submitting}
+							loading={submitting}
+							size="medium"
+							positive
+							content="Update Password"
+						/>
+					</Form>
+				</div>
+			)}
+      
+			{providerId && providerId === 'facebook.com' && (
+				<div style={{ marginBottom: '1.5rem' }}>
+					<Header color="teal" sub content="Facebook Account" />
+					<p>Please visit Facebook to update your account settings</p>
+					<Button size="medium" type="button" color="facebook">
+						<Icon name="facebook" />
+						Go to Facebook
+					</Button>
+				</div>
+			)}
 
-			<Divider horizontal>OR</Divider>
-			<div style={{ marginBottom: '1.5rem' }}>
-				<Header color="teal" sub content="Facebook Account" />
-				<p>Please visit Facebook to update your account settings</p>
-				<Button size="medium" type="button" color="facebook">
-					<Icon name="facebook" />
-					Go to Facebook
-				</Button>
-			</div>
-
-			<div>
-				<Header color="teal" sub content="Google Account" />
-				<p>Please visit Google to update your account settings</p>
-				<Button size="medium" type="button" color="google plus">
-					<Icon name="google" />
-					Go to Google
-				</Button>
-			</div>
+			{providerId && providerId === 'google.com' && (
+				<div>
+					<Header color="teal" sub content="Google Account" />
+					<p>Please visit Google to update your account settings</p>
+					<Button size="medium" type="button" color="google plus">
+						<Icon name="google" />
+						Go to Google
+					</Button>
+				</div>
+			)}
 		</Segment>
 	);
 };
