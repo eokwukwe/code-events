@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withFirebase } from 'react-redux-firebase';
 import { Menu, Container, Button } from 'semantic-ui-react';
 import { NavLink, Link, withRouter } from 'react-router-dom';
 
@@ -56,7 +57,9 @@ const Navbar = ({ openModal, auth, logout, history }) => {
 const actions = { openModal, logout };
 
 const mapStateToProps = state => ({
-	auth: state.auth,
+	auth: state.firebase.auth,
 });
 
-export default withRouter(connect(mapStateToProps, actions)(Navbar));
+export default withRouter(
+	withFirebase(connect(mapStateToProps, actions)(Navbar)),
+);

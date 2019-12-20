@@ -2,18 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Responsive } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import { withFirebase } from 'react-redux-firebase';
 
 import NavbarMobile from './NavbarMobile';
 import NavbarDesktop from './NavbarDesktop';
 import { openModal } from '../../modals/modalActions';
 import { logout } from '../../auth/authActions';
 
-const NavbarContainer = ({ children, openModal, auth, logout, history }) => {
+const NavbarContainer = ({
+	children,
+	openModal,
+	auth,
+	logout,
+	history,
+	firebase,
+}) => {
 	const handleLogin = () => openModal('LoginModal');
 	const handleRegister = () => openModal('RegisterModal');
+	// const authenticated = auth.isLoaded && !auth.isEmpty;
 
 	const handleSignedOut = () => {
-		logout();
+		firebase.logout();
 		history.push('/events');
 	};
 	const getWidth = () => {
@@ -47,7 +56,9 @@ const NavbarContainer = ({ children, openModal, auth, logout, history }) => {
 const actions = { openModal, logout };
 
 const mapStateToProps = state => ({
-	auth: state.auth,
+	auth: state.firebase.auth,
 });
 
-export default withRouter(connect(mapStateToProps, actions)(NavbarContainer));
+export default withRouter(
+	withFirebase(connect(mapStateToProps, actions)(NavbarContainer)),
+);
