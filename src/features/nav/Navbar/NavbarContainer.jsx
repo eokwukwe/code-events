@@ -12,6 +12,7 @@ const NavbarContainer = ({
 	children,
 	openModal,
 	auth,
+	profile,
 	history,
 	firebase,
 }) => {
@@ -34,6 +35,7 @@ const NavbarContainer = ({
 				getWidth={getWidth}
 				auth={auth}
 				logout={handleSignedOut}
+				profile={profile}
 			>
 				{children}
 			</NavbarDesktop>
@@ -43,6 +45,7 @@ const NavbarContainer = ({
 				getWidth={getWidth}
 				auth={auth}
 				logout={handleSignedOut}
+				profile={profile}
 			>
 				{children}
 			</NavbarMobile>
@@ -54,6 +57,7 @@ const actions = { openModal };
 
 const mapStateToProps = state => ({
 	auth: state.firebase.auth,
+	profile: state.firebase.profile
 });
 
 export default withRouter(

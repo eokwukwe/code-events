@@ -11,6 +11,7 @@ const NavbarDesktop = ({
 	register,
 	logout,
 	auth,
+	profile
 }) => {
 	const authenticated = auth.isLoaded && !auth.isEmpty;
 	return (
@@ -41,7 +42,7 @@ const NavbarDesktop = ({
 						</Fragment>
 					)}
 					{authenticated ? (
-						<SignedInMenu logout={logout} auth={auth} />
+						<SignedInMenu logout={logout} profile={profile} />
 					) : (
 						<SignedOutMenu login={login} register={register} />
 					)}
