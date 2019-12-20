@@ -7,19 +7,16 @@ import { withFirebase } from 'react-redux-firebase';
 import NavbarMobile from './NavbarMobile';
 import NavbarDesktop from './NavbarDesktop';
 import { openModal } from '../../modals/modalActions';
-import { logout } from '../../auth/authActions';
 
 const NavbarContainer = ({
 	children,
 	openModal,
 	auth,
-	logout,
 	history,
 	firebase,
 }) => {
 	const handleLogin = () => openModal('LoginModal');
 	const handleRegister = () => openModal('RegisterModal');
-	// const authenticated = auth.isLoaded && !auth.isEmpty;
 
 	const handleSignedOut = () => {
 		firebase.logout();
@@ -53,7 +50,7 @@ const NavbarContainer = ({
 	);
 };
 
-const actions = { openModal, logout };
+const actions = { openModal };
 
 const mapStateToProps = state => ({
 	auth: state.firebase.auth,

@@ -1,5 +1,4 @@
-import { SubmissionError } from 'redux-form'
-import { LOG_OUT_USER } from './authConstants';
+import { SubmissionError } from 'redux-form';
 import { closeModal } from '../modals/modalActions';
 
 export const login = creds => {
@@ -13,12 +12,38 @@ export const login = creds => {
 		} catch (error) {
 			console.log(error);
 			throw new SubmissionError({
-				_error: error.message
-			})
+				_error: error.message,
+			});
 		}
 	};
 };
 
-export const logout = () => ({
-	type: LOG_OUT_USER,
-});
+export const registUser = user => async (
+	dispatch,
+	getState,
+	{ getFirebase, getFirestore },
+) => {
+	const firebase = getFirebase();
+	const firestore = getFirestore();
+
+	try {
+		// Create new user
+		let createdUser = await firebase
+			.auth()
+			.createUserWithEmailAndPassword(user.email, user.password);
+		console.log(createdUser);
+		await createdUser.user.updateProfile({
+			displayName: user.displayName,
+		});
+
+		// Create user in firestore
+		let newUser = {
+			displayName: user.displayName,
+			createAt: firestore.FieldValue.serverTimestamp(),
+		};
+		await firestore.set(`users/${createdUser.user.uid}`, { ...newUser });
+		dispatch(closeModal());
+	} catch (error) {
+		console.log(error);
+	}
+};

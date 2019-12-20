@@ -15,6 +15,7 @@ const NavBarMobile = ({
 	const [sidebarOpened, setSidebarOpen] = useState(false);
 	const handleSidebarHide = () => setSidebarOpen(false);
 	const handleToggle = () => setSidebarOpen(true);
+	const authenticated = auth.isLoaded && !auth.isEmpty;
 
 	return (
 		<Responsive
@@ -54,7 +55,7 @@ const NavBarMobile = ({
 					to="/events"
 					name="Events"
 				/>
-				{auth.authenticated && (
+				{authenticated && (
 					<Fragment>
 						<Menu.Item
 							onClick={handleSidebarHide}
@@ -85,8 +86,8 @@ const NavBarMobile = ({
 								CodEvents
 							</span>
 						</Menu.Item>
-						{auth.authenticated ? (
-							<SignedInMenu logout={logout} currentUser={auth.currentUser} />
+						{authenticated ? (
+							<SignedInMenu logout={logout} auth={auth} />
 						) : (
 							<SignedOutMenu login={login} register={register} />
 						)}
