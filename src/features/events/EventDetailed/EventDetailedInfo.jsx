@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 export const EventDetailedInfo = ({ event }) => {
 	const [isMapOpen, setIsMapOpen] = useState(false);
 	const handleMapOpenToggle = () => setIsMapOpen(!isMapOpen);
+console.log(event);
 
 	return (
 		<Segment.Group>
@@ -26,8 +27,8 @@ export const EventDetailedInfo = ({ event }) => {
 							<List.Description>
 								<span>
 									{event.date &&
-										format(new Date(event.date), 'EEE dd MMMM yyy')}{' '}
-									at {event.date && format(new Date(event.date), 'h:mm a')}
+										format(event.date.toDate(), 'EEE dd MMMM yyy')}{' '}
+									at {event.date && format(event.date.toDate(), 'h:mm a')}
 								</span>
 							</List.Description>
 						</List.Content>

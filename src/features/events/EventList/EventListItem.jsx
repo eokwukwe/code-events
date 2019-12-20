@@ -12,7 +12,9 @@ const EventsListItem = ({ event, deleteEvent }) => {
 					<Item>
 						<Item.Image size="tiny" circular src={event.hostPhotoURL} />
 						<Item.Content verticalAlign="middle">
-							<Item.Header>{event.title}</Item.Header>
+							<Item.Header style={{ textTransform: 'capitalize' }}>
+								{event.title}
+							</Item.Header>
 							<Item.Description>
 								Hosted by <span>{event.hostedBy}</span>
 							</Item.Description>
@@ -23,16 +25,16 @@ const EventsListItem = ({ event, deleteEvent }) => {
 			<Segment>
 				<span>
 					<Icon name="clock" />
-					{format(new Date(event.date), 'EEE dd MMMM yyy')} at{' '}
-					{format(new Date(event.date), 'h:mm a')} |
+					{format(event.date.toDate(), 'EEE dd MMMM yyy')} at{' '}
+					{format(event.date.toDate(), 'h:mm a')} |
 					<Icon name="marker" /> {event.venue}
 				</span>
 			</Segment>
 			<Segment secondary>
 				<List horizontal>
 					{event.attendees &&
-						event.attendees.map(attendee => (
-							<EventListAttendee key={attendee.id} attendee={attendee} />
+						Object.values(event.attendees).map((attendee, index) => (
+							<EventListAttendee key={index} attendee={attendee} />
 						))}
 				</List>
 			</Segment>

@@ -18,7 +18,6 @@ const eventImageTextStyle = {
 };
 
 export const EventDetailedHeader = ({ event }) => {
-	console.log(window.innerWidth);
 	const isMobile = window.innerWidth <= 767;
 
 	return (
