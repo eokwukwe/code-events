@@ -1,11 +1,12 @@
 import React from 'react';
-import { Form, Segment, Button, Label } from 'semantic-ui-react';
+import { Form, Segment, Button, Label, Divider } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { combineValidators, isRequired } from 'revalidate';
 
 import { login } from '../authActions';
 import TextInput from '../../../app/common/form/TextInput';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const validate = combineValidators({
 	email: isRequired('email'),
@@ -15,7 +16,6 @@ const validate = combineValidators({
 const LoginForm = ({ login, handleSubmit, error, invalid, submitting }) => {
 	return (
 		<Form onSubmit={handleSubmit(login)} error size="large">
-			<Segment>
 				<Field
 					name="email"
 					component={TextInput}
@@ -37,12 +37,13 @@ const LoginForm = ({ login, handleSubmit, error, invalid, submitting }) => {
 					disabled={invalid || submitting}
 					loading={submitting}
 					fluid
-					size="large"
+					size="medium"
 					color="teal"
 				>
 					Login
 				</Button>
-			</Segment>
+				<Divider horizontal>OR</Divider>
+				<SocialLogin />
 		</Form>
 	);
 };
