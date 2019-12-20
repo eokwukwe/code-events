@@ -18,7 +18,7 @@ export const login = creds => {
 	};
 };
 
-export const registUser = user => async (
+export const registerUser = user => async (
 	dispatch,
 	getState,
 	{ getFirebase, getFirestore },
@@ -35,7 +35,6 @@ export const registUser = user => async (
 		await createdUser.user.updateProfile({
 			displayName: user.displayName,
 		});
-
 		// Create user in firestore
 		let newUser = {
 			displayName: user.displayName,
@@ -45,5 +44,8 @@ export const registUser = user => async (
 		dispatch(closeModal());
 	} catch (error) {
 		console.log(error);
+		throw new SubmissionError({
+			_error: error.message,
+		});
 	}
 };

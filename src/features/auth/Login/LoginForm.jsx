@@ -2,18 +2,24 @@ import React from 'react';
 import { Form, Segment, Button, Label } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
+import { combineValidators, isRequired } from 'revalidate';
 
 import { login } from '../authActions';
 import TextInput from '../../../app/common/form/TextInput';
 
-const LoginForm = ({ login, handleSubmit, error }) => {
+const validate = combineValidators({
+	email: isRequired('email'),
+	password: isRequired('password'),
+});
+
+const LoginForm = ({ login, handleSubmit, error, invalid, submitting }) => {
 	return (
 		<Form onSubmit={handleSubmit(login)} error size="large">
 			<Segment>
 				<Field
 					name="email"
 					component={TextInput}
-					type="text"
+					type="email"
 					placeholder="Email Address"
 				/>
 				<Field
@@ -23,11 +29,17 @@ const LoginForm = ({ login, handleSubmit, error }) => {
 					placeholder="password"
 				/>
 				{error && (
-					<Label style={{marginBottom: '0.6rem'}} basic color="red">
+					<Label style={{ marginBottom: '0.6rem' }} basic color="red">
 						{error}
 					</Label>
 				)}
-				<Button fluid size="large" color="teal">
+				<Button
+					disabled={invalid || submitting}
+					loading={submitting}
+					fluid
+					size="large"
+					color="teal"
+				>
 					Login
 				</Button>
 			</Segment>
@@ -40,4 +52,4 @@ const actions = { login };
 export default connect(
 	null,
 	actions,
-)(reduxForm({ form: 'loginForm' })(LoginForm));
+)(reduxForm({ form: 'loginForm', validate })(LoginForm));
