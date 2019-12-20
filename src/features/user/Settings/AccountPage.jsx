@@ -1,10 +1,100 @@
-import React from 'react'
+import React from 'react';
+import { Field, reduxForm } from 'redux-form';
+import {
+	Segment,
+	Header,
+	Form,
+	Divider,
+	Label,
+	Button,
+	Icon,
+} from 'semantic-ui-react';
+import {
+	combineValidators,
+	matchesField,
+	composeValidators,
+	isRequired,
+} from 'revalidate';
 
-const AccountPage = () => {
-  return (
-    <div>
-      <h1>AccountPage</h1>
-    </div>
-  )
-}
-export default AccountPage
+import TextInput from '../../../app/common/form/TextInput';
+
+const validate = combineValidators({
+	newPassword1: isRequired({ message: 'Please enter a password' }),
+	newPassword2: composeValidators(
+		isRequired({ message: 'Please confirm your new password' }),
+		matchesField('newPassword1')({ message: 'Passwords do not match' }),
+	)(),
+});
+
+const AccountPage = ({
+	error,
+	invalid,
+	submitting,
+	handleSubmit,
+	updatePassword,
+}) => {
+	return (
+		<Segment>
+			<Header dividing size="large" content="Account" />
+			<div>
+				<Header color="teal" sub content="Change password" />
+				{/* <p>Use this form to update your account settings</p> */}
+				<Form onSubmit={handleSubmit(updatePassword)}>
+					<Field
+						width={8}
+						name="newPassword1"
+						type="password"
+						pointing="left"
+						inline={true}
+						component={TextInput}
+						basic={true}
+						placeholder="New Password"
+					/>
+					<Field
+						width={8}
+						name="newPassword2"
+						type="password"
+						inline={true}
+						basic={true}
+						pointing="left"
+						component={TextInput}
+						placeholder="Confirm Password"
+					/>
+					{error && (
+						<Label basic color="red">
+							{error}
+						</Label>
+					)}
+					<Button
+						disabled={invalid || submitting}
+						loading={submitting}
+						size="medium"
+						positive
+						content="Update Password"
+					/>
+				</Form>
+			</div>
+
+			<Divider horizontal>OR</Divider>
+			<div style={{ marginBottom: '1.5rem' }}>
+				<Header color="teal" sub content="Facebook Account" />
+				<p>Please visit Facebook to update your account settings</p>
+				<Button size="medium" type="button" color="facebook">
+					<Icon name="facebook" />
+					Go to Facebook
+				</Button>
+			</div>
+
+			<div>
+				<Header color="teal" sub content="Google Account" />
+				<p>Please visit Google to update your account settings</p>
+				<Button size="medium" type="button" color="google plus">
+					<Icon name="google" />
+					Go to Google
+				</Button>
+			</div>
+		</Segment>
+	);
+};
+
+export default reduxForm({ form: 'account', validate })(AccountPage);
