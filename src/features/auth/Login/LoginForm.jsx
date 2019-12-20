@@ -1,12 +1,12 @@
 import React from 'react';
-import { Form, Segment, Button } from 'semantic-ui-react';
+import { Form, Segment, Button, Label } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
 import { login } from '../authActions';
 import TextInput from '../../../app/common/form/TextInput';
 
-const LoginForm = ({ login, handleSubmit }) => {
+const LoginForm = ({ login, handleSubmit, error }) => {
 	return (
 		<Form onSubmit={handleSubmit(login)} error size="large">
 			<Segment>
@@ -22,6 +22,11 @@ const LoginForm = ({ login, handleSubmit }) => {
 					type="password"
 					placeholder="password"
 				/>
+				{error && (
+					<Label style={{marginBottom: '0.6rem'}} basic color="red">
+						{error}
+					</Label>
+				)}
 				<Button fluid size="large" color="teal">
 					Login
 				</Button>
