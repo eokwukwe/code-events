@@ -8,7 +8,7 @@ const initialState = {
 
 const loginUser = (state, payload) => ({
 	authenticated: true,
-	currentUser: payload.credentials.email,
+	currentUser: payload.creds.email,
 });
 
 const logoutUser = () => ({
