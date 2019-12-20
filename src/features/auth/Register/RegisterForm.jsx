@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Form, Segment, Button, Label, Divider } from 'semantic-ui-react';
+import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import { combineValidators, isRequired } from 'revalidate';
 
 import TextInput from '../../../app/common/form/TextInput';
-import { registerUser } from '../authActions';
+import { registerUser, socialLogin } from '../authActions';
 import SocialLogin from '../SocialLogin/SocialLogin';
 
 const validate = combineValidators({
@@ -20,6 +20,7 @@ const RegisterForm = ({
 	error,
 	invalid,
 	submitting,
+	socialLogin
 }) => {
 	return (
 		<div>
@@ -57,13 +58,13 @@ const RegisterForm = ({
 						Register
 					</Button>
 					<Divider horizontal>OR</Divider>
-					<SocialLogin />
+					<SocialLogin socialLogin={socialLogin} />
 			</Form>
 		</div>
 	);
 };
 
-const actions = { registerUser };
+const actions = { registerUser, socialLogin };
 
 export default connect(
 	null,

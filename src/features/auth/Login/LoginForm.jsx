@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Segment, Button, Label, Divider } from 'semantic-ui-react';
+import { Form, Button, Label, Divider } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { combineValidators, isRequired } from 'revalidate';
