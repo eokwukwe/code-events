@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { connect } from 'react-redux';
 import {
 	Image,
 	Segment,
@@ -8,10 +9,13 @@ import {
 	Button,
 	Card,
 } from 'semantic-ui-react';
+import { toastr } from 'react-redux-toastr';
+
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
+import { uploadProfileImage } from '../../userActions';
 
-const PhotosPage = () => {
+const PhotosPage = ({ uploadProfileImage }) => {
 	const [files, setFiles] = useState([]);
 	const [image, setImage] = useState(null);
 
@@ -21,6 +25,22 @@ const PhotosPage = () => {
 			files.forEach(file => URL.revokeObjectURL(file.preview));
 		};
 	}, [files]);
+
+	const handleUploadImage = async () => {
+		try {
+			await uploadProfileImage(image, files[0].name);
+			handleCancelCrop();
+			toastr.success('Success', 'Photo uploaded');
+		} catch (error) {
+			console.error(error);
+			toastr.error('Oops!', 'Something went wrong');
+		}
+	};
+
+	const handleCancelCrop = () => {
+		setFiles([]);
+		setImage(null);
+	};
 
 	return (
 		<Segment>
@@ -42,14 +62,29 @@ const PhotosPage = () => {
 				<Grid.Column width={4}>
 					<Header sub color="teal" content="Step 3 - Preview & Upload" />
 					{files.length > 0 && (
-						<div
-							className="img-preview"
-							style={{
-								minHeight: '200px',
-								minWidth: '200px',
-								overflow: 'hidden',
-							}}
-						/>
+						<Fragment>
+							<div
+								className="img-preview"
+								style={{
+									minHeight: '200px',
+									minWidth: '200px',
+									overflow: 'hidden',
+								}}
+							/>
+							<Button.Group>
+								<Button
+									onClick={handleUploadImage}
+									positive
+									icon="check"
+									style={{ width: '100px' }}
+								/>
+								<Button
+									onClick={handleCancelCrop}
+									icon="close"
+									style={{ width: '100px' }}
+								/>
+							</Button.Group>
+						</Fragment>
 					)}
 				</Grid.Column>
 			</Grid>
@@ -66,7 +101,7 @@ const PhotosPage = () => {
 				<Card>
 					<Image src="https://randomuser.me/api/portraits/men/20.jpg" />
 					<Button.Group>
-						<Button size="mini" positive icon="world" />
+						<Button size="mini" positive icon="check" />
 						<Button.Or />
 						<Button size="mini" negative icon="trash" />
 					</Button.Group>
@@ -76,4 +111,8 @@ const PhotosPage = () => {
 	);
 };
 
-export default PhotosPage;
+const actions = {
+	uploadProfileImage,
+};
+
+export default connect(null, actions)(PhotosPage);
