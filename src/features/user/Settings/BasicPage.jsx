@@ -7,11 +7,11 @@ import TextInput from '../../../app/common/form/TextInput';
 import RadioInput from '../../../app/common/form/RadioInput';
 import { addYears } from 'date-fns';
 
-const BasicPage = ({ pristine, submitting }) => {
+const BasicPage = ({ pristine, submitting, handleSubmit, updateProfile }) => {
 	return (
 		<Segment>
 			<Header dividing size="large" content="Bio Data" />
-			<Form>
+			<Form onSubmit={handleSubmit(updateProfile)}>
 				<Field
 					width={8}
 					name="displayName"

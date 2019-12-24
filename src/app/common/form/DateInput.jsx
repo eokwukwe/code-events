@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const DateInput = ({
-	input,
+	input: { value, onChange, onBlur },
 	width,
 	placeholder,
 	meta: { touched, error },
@@ -14,10 +14,16 @@ const DateInput = ({
 		<Form.Field error={touched && !!error}>
 			<DatePicker
 				{...rest}
-				selected={input.value ? new Date(input.value) : null}
+				selected={
+					value
+						? Object.prototype.toString.call(value) !== '[object Date]'
+							? value.toDate()
+							: value
+						: null
+				}
 				placeholderText={placeholder}
-				onChange={input.onChange}
-				onBlur={input.onBlur}
+				onChange={onChange}
+				onBlur={(e, val) => onBlur(val)}
 				onChangeRaw={e => e.preventDefault()}
 			/>
 			{touched && error && (

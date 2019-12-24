@@ -6,9 +6,10 @@ export const updateProfile = user => async (
 	{ getFirebase },
 ) => {
 	const firebase = getFirebase();
+  const { isLoaded, isEmpty, ...updatedUser } = user;
 	try {
-    // Update profile in firestore database
-		await firebase.updateProfile(user);
+		// Update profile in firestore database
+		await firebase.updateProfile(updatedUser);
 		toastr.success('Success', 'Update updated');
 	} catch (error) {
 		console.error(error);
