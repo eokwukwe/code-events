@@ -16,8 +16,9 @@ import { compose } from 'redux';
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
 import { uploadProfileImage } from '../../userActions';
+import UserPhotos from './UserPhotos';
 
-const PhotosPage = ({ uploadProfileImage }) => {
+const PhotosPage = ({ uploadProfileImage, profile, photos }) => {
 	const [files, setFiles] = useState([]);
 	const [image, setImage] = useState(null);
 
@@ -92,23 +93,7 @@ const PhotosPage = ({ uploadProfileImage }) => {
 			</Grid>
 
 			<Divider />
-			<Header sub color="teal" content="All Photos" />
-
-			<Card.Group itemsPerRow={5}>
-				<Card>
-					<Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-					<Button positive>Main Photo</Button>
-				</Card>
-
-				<Card>
-					<Image src="https://randomuser.me/api/portraits/men/20.jpg" />
-					<Button.Group>
-						<Button size="mini" positive icon="check" />
-						<Button.Or />
-						<Button size="mini" negative icon="trash" />
-					</Button.Group>
-				</Card>
-			</Card.Group>
+			{photos && <UserPhotos profile={profile} photos={photos} />}
 		</Segment>
 	);
 };
@@ -120,6 +105,7 @@ const actions = {
 const mapStateToProps = state => ({
 	auth: state.firebase.auth,
 	profile: state.firebase.profile,
+	photos: state.firestore.ordered.photos,
 });
 
 const query = ({ auth }) => [
