@@ -65,8 +65,9 @@ const BasicPage = ({ pristine, submitting, handleSubmit, updateProfile }) => {
 				<Divider />
 				<Button
 					disabled={pristine || submitting}
-					size="large"
+					size="medium"
 					positive
+					loading={submitting}
 					content="Update Profile"
 				/>
 			</Form>

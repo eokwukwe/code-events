@@ -79,8 +79,9 @@ const AboutPage = ({ pristine, submitting, handleSubmit, updateProfile }) => {
 				<Divider />
 				<Button
 					disabled={pristine || submitting}
-					size="large"
-					positive
+					size="medium"
+          positive
+          loading={submitting}
 					content="Update Profile"
 				/>
 			</Form>
