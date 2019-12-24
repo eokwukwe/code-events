@@ -4,7 +4,6 @@ import {
 	Segment,
 	Header,
 	Form,
-	Divider,
 	Label,
 	Button,
 	Icon,
@@ -76,7 +75,7 @@ const AccountPage = ({
 					</Form>
 				</div>
 			)}
-      
+
 			{providerId && providerId === 'facebook.com' && (
 				<div style={{ marginBottom: '1.5rem' }}>
 					<Header color="teal" sub content="Facebook Account" />
