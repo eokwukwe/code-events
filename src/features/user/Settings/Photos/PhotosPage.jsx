@@ -7,10 +7,10 @@ import { compose } from 'redux';
 
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
-import { uploadProfileImage, deletePhoto } from '../../userActions';
+import { uploadProfileImage, deletePhoto, setMainPhoto } from '../../userActions';
 import UserPhotos from './UserPhotos';
 
-const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto }) => {
+const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto, setMainPhoto }) => {
 	const [files, setFiles] = useState([]);
 	const [image, setImage] = useState(null);
 
@@ -40,6 +40,14 @@ const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto }) => {
 	const handleDeletePhoto = async photo => {
 		try {
 			await deletePhoto(photo);
+		} catch (error) {
+			toastr.error('Oops!', error.message);
+		}
+	};
+
+	const handleSetMainPhoto = async photo => {
+		try {
+			await setMainPhoto(photo);
 		} catch (error) {
 			toastr.error('Oops!', error.message);
 		}
@@ -98,6 +106,7 @@ const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto }) => {
 					profile={profile}
 					photos={photos}
 					deletePhoto={handleDeletePhoto}
+					setMainPhoto={handleSetMainPhoto}
 				/>
 			)}
 		</Segment>
@@ -107,6 +116,7 @@ const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto }) => {
 const actions = {
 	uploadProfileImage,
 	deletePhoto,
+	setMainPhoto
 };
 
 const mapStateToProps = state => ({
