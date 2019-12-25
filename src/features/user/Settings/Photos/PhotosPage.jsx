@@ -7,15 +7,27 @@ import { compose } from 'redux';
 
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
-import { uploadProfileImage, deletePhoto, setMainPhoto } from '../../userActions';
+import {
+	uploadProfileImage,
+	deletePhoto,
+	setMainPhoto,
+} from '../../userActions';
 import UserPhotos from './UserPhotos';
 
-const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto, setMainPhoto }) => {
+const PhotosPage = ({
+	uploadProfileImage,
+	profile,
+	photos,
+	deletePhoto,
+	setMainPhoto,
+	loading,
+}) => {
 	const [files, setFiles] = useState([]);
 	const [image, setImage] = useState(null);
 
 	useEffect(() => {
-		// Cleanup the object URL created in memory
+		// Cleanup the object URL created in memory by createObjectURL
+		// in the DropzoneInput component
 		return () => {
 			files.forEach(file => URL.revokeObjectURL(file.preview));
 		};
@@ -88,11 +100,13 @@ const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto, setMainP
 									positive
 									icon="check"
 									style={{ width: '100px' }}
+									loading={loading}
 								/>
 								<Button
 									onClick={handleCancelCrop}
 									icon="close"
 									style={{ width: '100px' }}
+									disabled={loading}
 								/>
 							</Button.Group>
 						</Fragment>
@@ -116,13 +130,14 @@ const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto, setMainP
 const actions = {
 	uploadProfileImage,
 	deletePhoto,
-	setMainPhoto
+	setMainPhoto,
 };
 
 const mapStateToProps = state => ({
 	auth: state.firebase.auth,
 	profile: state.firebase.profile,
 	photos: state.firestore.ordered.photos,
+	loading: state.async.loading,
 });
 
 const query = ({ auth }) => [

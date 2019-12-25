@@ -1,7 +1,12 @@
 import React, { Fragment } from 'react';
 import { Header, Card, Image, Button } from 'semantic-ui-react';
 
-const UserPhotos = ({ profile, photos, deletePhoto, setMainPhoto }) => {
+const UserPhotos = ({
+	profile,
+	photos,
+	deletePhoto,
+	setMainPhoto,
+}) => {
 	let filterPhotos;
 	if (photos) {
 		filterPhotos = photos.filter(photo => photo.url !== profile.photoURL);
@@ -12,11 +17,11 @@ const UserPhotos = ({ profile, photos, deletePhoto, setMainPhoto }) => {
 			<Header sub color="teal" content="All Photos" />
 			<Card.Group itemsPerRow={5}>
 				<Card>
-					<Image src={profile.photoURL} />
+					<Image src={profile.photoURL || '/assets/user.png'} />
 					<Button positive>Main Photo</Button>
 				</Card>
 
-				{photos.length &&
+				{photos.length > 0 &&
 					filterPhotos.map(photo => (
 						<Card key={photo.id}>
 							<Image src={photo.url} />
