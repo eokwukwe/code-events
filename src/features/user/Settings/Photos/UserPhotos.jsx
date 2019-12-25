@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Header, Card, Image, Button } from 'semantic-ui-react';
 
-const UserPhotos = ({ profile, photos }) => {
+const UserPhotos = ({ profile, photos, deletePhoto }) => {
 	let filterPhotos;
 	if (photos) {
 		filterPhotos = photos.filter(photo => photo.url !== profile.photoURL);
@@ -23,7 +23,12 @@ const UserPhotos = ({ profile, photos }) => {
 							<Button.Group>
 								<Button size="mini" positive icon="check" />
 								<Button.Or />
-								<Button size="mini" negative icon="trash" />
+								<Button
+									onClick={() => deletePhoto(photo)}
+									size="mini"
+									negative
+									icon="trash"
+								/>
 							</Button.Group>
 						</Card>
 					))}

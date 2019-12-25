@@ -1,24 +1,16 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
-import {
-	Image,
-	Segment,
-	Header,
-	Divider,
-	Grid,
-	Button,
-	Card,
-} from 'semantic-ui-react';
+import { Segment, Header, Divider, Grid, Button } from 'semantic-ui-react';
 import { toastr } from 'react-redux-toastr';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 
 import DropzoneInput from './DropzoneInput';
 import CropperInput from './CropperInput';
-import { uploadProfileImage } from '../../userActions';
+import { uploadProfileImage, deletePhoto } from '../../userActions';
 import UserPhotos from './UserPhotos';
 
-const PhotosPage = ({ uploadProfileImage, profile, photos }) => {
+const PhotosPage = ({ uploadProfileImage, profile, photos, deletePhoto }) => {
 	const [files, setFiles] = useState([]);
 	const [image, setImage] = useState(null);
 
@@ -43,6 +35,14 @@ const PhotosPage = ({ uploadProfileImage, profile, photos }) => {
 	const handleCancelCrop = () => {
 		setFiles([]);
 		setImage(null);
+	};
+
+	const handleDeletePhoto = async photo => {
+		try {
+			await deletePhoto(photo);
+		} catch (error) {
+			toastr.error('Oops!', error.message);
+		}
 	};
 
 	return (
@@ -93,13 +93,20 @@ const PhotosPage = ({ uploadProfileImage, profile, photos }) => {
 			</Grid>
 
 			<Divider />
-			{photos && <UserPhotos profile={profile} photos={photos} />}
+			{photos && (
+				<UserPhotos
+					profile={profile}
+					photos={photos}
+					deletePhoto={handleDeletePhoto}
+				/>
+			)}
 		</Segment>
 	);
 };
 
 const actions = {
 	uploadProfileImage,
+	deletePhoto,
 };
 
 const mapStateToProps = state => ({
