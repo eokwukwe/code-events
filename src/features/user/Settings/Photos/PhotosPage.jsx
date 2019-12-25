@@ -68,21 +68,20 @@ const PhotosPage = ({
 	return (
 		<Segment>
 			<Header dividing size="large" content="Your Photos" />
-			<Grid>
-				<Grid.Row />
-				<Grid.Column width={4}>
+			<Grid doubling columns={3} textAlign='center' verticalAlign='top'>
+				<Grid.Column>
 					<Header color="teal" sub content="Step 1 - Add Photo" />
 					<DropzoneInput setFiles={setFiles} />
 				</Grid.Column>
-				<Grid.Column width={1} />
-				<Grid.Column width={4}>
+
+				<Grid.Column>
 					<Header sub color="teal" content="Step 2 - Resize image" />
 					{files.length > 0 && (
 						<CropperInput setImage={setImage} imagePreview={files[0].preview} />
 					)}
 				</Grid.Column>
-				<Grid.Column width={1} />
-				<Grid.Column width={4}>
+
+				<Grid.Column>
 					<Header sub color="teal" content="Step 3 - Preview & Upload" />
 					{files.length > 0 && (
 						<Fragment>
@@ -90,7 +89,7 @@ const PhotosPage = ({
 								className="img-preview"
 								style={{
 									minHeight: '200px',
-									minWidth: '200px',
+									width: '100%',
 									overflow: 'hidden',
 								}}
 							/>

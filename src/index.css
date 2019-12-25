@@ -124,7 +124,10 @@ body {
 	border-radius: 5px;
 	padding: 10px;
 	text-align: center;
-	/* min-height: 236px; */
+	height: 200px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .dropzone--isActive {
@@ -133,5 +136,10 @@ body {
 
 /* SettingNav */
 .ui.vertical.menu {
+	width: auto !important;
+}
+
+/* cropper container*/
+.cropper-container {
 	width: auto !important;
 }

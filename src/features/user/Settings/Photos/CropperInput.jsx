@@ -20,7 +20,7 @@ const CropperInput = ({ imagePreview, setImage }) => {
 			style={{ height: 200, width: '100%' }}
 			preview=".img-preview"
 			aspectRatio={1}
-			viewMode={1}
+			viewMode={2}
 			dragMode="move"
 			guides={false}
 			scalable={true}
