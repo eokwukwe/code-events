@@ -11,7 +11,7 @@ const NavBarMobile = ({
 	register,
 	logout,
 	auth,
-	profile
+	profile,
 }) => {
 	const [sidebarOpened, setSidebarOpen] = useState(false);
 	const handleSidebarHide = () => setSidebarOpen(false);
@@ -88,7 +88,7 @@ const NavBarMobile = ({
 							</span>
 						</Menu.Item>
 						{authenticated ? (
-							<SignedInMenu logout={logout} profile={profile} />
+							<SignedInMenu logout={logout} profile={profile} auth={auth} />
 						) : (
 							<SignedOutMenu login={login} register={register} />
 						)}

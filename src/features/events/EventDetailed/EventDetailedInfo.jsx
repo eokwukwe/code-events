@@ -6,8 +6,6 @@ import { format } from 'date-fns';
 export const EventDetailedInfo = ({ event }) => {
 	const [isMapOpen, setIsMapOpen] = useState(false);
 	const handleMapOpenToggle = () => setIsMapOpen(!isMapOpen);
-console.log(event);
-
 	return (
 		<Segment.Group>
 			<Segment attached="top">

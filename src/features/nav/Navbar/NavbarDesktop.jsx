@@ -42,7 +42,7 @@ const NavbarDesktop = ({
 						</Fragment>
 					)}
 					{authenticated ? (
-						<SignedInMenu logout={logout} profile={profile} />
+						<SignedInMenu logout={logout} profile={profile} auth={auth} />
 					) : (
 						<SignedOutMenu login={login} register={register} />
 					)}

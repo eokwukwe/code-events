@@ -1,5 +1,7 @@
 body {
-	background-color: rgb(234, 234, 234) !important;
+	background-color: #f7f7f7 !important;
+	/* background-color: rgb(234, 234, 234) !important; */
+
 }
 
 /*timepicker style*/
@@ -143,3 +145,16 @@ body {
 .cropper-container {
 	width: auto !important;
 }
+
+/* user detailed page */
+.user-detail--content {
+	margin-bottom: 0 !important;
+	font-size: 1rem;
+	color: grey;
+}
+
+.user-detail--content strong {
+	font-size: 1rem;
+	color: #646363
+}
+

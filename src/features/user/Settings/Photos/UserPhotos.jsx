@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Header, Card, Image, Button, Label, Icon } from 'semantic-ui-react';
+import { Header, Card, Image, Label, Icon } from 'semantic-ui-react';
 
 const UserPhotos = ({ profile, photos, deletePhoto, setMainPhoto }) => {
 	let filterPhotos;
