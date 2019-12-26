@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item, Label, Icon, Segment } from 'semantic-ui-react';
+import { Item, Label, Segment } from 'semantic-ui-react';
 import { differenceInYears, format } from 'date-fns';
 
 const UserDetailedBio = ({ large, profile }) => {
