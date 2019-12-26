@@ -1,7 +1,11 @@
 import React from 'react';
 import { Item, Label, Icon, Segment } from 'semantic-ui-react';
+import { differenceInYears, format } from 'date-fns';
 
-const UserBio = ({ large }) => {
+const UserDetailedBio = ({ large, profile }) => {
+	const age = profile.dateOfBirth
+		? `(${differenceInYears(Date.now(), profile.dateOfBirth.toDate())} yrs)`
+		: '';
 	return (
 		<Segment>
 			<Item.Content>
@@ -9,47 +13,47 @@ const UserBio = ({ large }) => {
 					<Item>
 						<Item.Image
 							avatar
-							size="small"
-							src="https://randomuser.me/api/portraits/men/20.jpg"
+							size={large ? 'small' : 'tiny'}
+							src={profile.photoURL || '/assets/user.png'}
 						/>
 
-						<Item.Content verticalAlign="middle">
+						<Item.Content verticalAlign={large ? 'middle' : 'top'}>
 							<div>
-								<strong style={{ marginBottom: '0.5rem', fontSize: '1.4rem' }}>
-									First Name
+								<strong
+									style={{
+										marginBottom: '0.5rem',
+										fontSize: '1.4rem',
+										textTransform: 'capitalize',
+									}}
+								>
+									{profile.displayName}
 								</strong>{' '}
-								<span>(27 yrs)</span>
+								<span>{age}</span>
 							</div>
 							<p className="user-detail--content">
-								<strong>Occupation: </strong> Software Engineer
+								<strong>Occupation: </strong>
+								{profile.occupation || <span>Unknown</span>}
 							</p>
 							<p className="user-detail--content">
-								<strong>Lives in: </strong> London, UK
+								<strong>Lives in: </strong>{' '}
+								{profile.city || <span>Unknown</span>}
 							</p>
 							<p className="user-detail--content">
-								<strong>Member Since: </strong> 26 March 2018
+								<strong>Joined: </strong>{' '}
+								{profile.createdAt &&
+									format(profile.createdAt.toDate(), 'dd MMMM yyy')}
 							</p>
 							<p className="user-detail--content">
 								<strong>Description: </strong>
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias
-								quos ipsa assumenda, minus iste quia ex corporis modi officia
-								doloribus sit debitis
+								{profile.about || <span>Tell us a little about yourself.</span>}
 							</p>
 							<div className="user-detail--content">
 								<Label.Group size="mini" color="teal">
 									<strong>Interests: </strong>
-									<Label>
-										<Icon name="food" />
-										Food
-									</Label>
-									<Label>
-										<Icon name="group" />
-										People
-									</Label>
-									<Label>
-										<Icon name="motorcycle" />
-										Travel
-									</Label>
+									{(profile.interests &&
+										profile.interests.map(interest => (
+											<Label key={interest}>{interest}</Label>
+										))) || <span>What are you interested in?</span>}
 								</Label.Group>
 							</div>
 						</Item.Content>
@@ -60,4 +64,4 @@ const UserBio = ({ large }) => {
 	);
 };
 
-export default UserBio;
+export default UserDetailedBio;
