@@ -1,7 +1,6 @@
 /*global google*/
 
 import React, { Component } from 'react';
-import cuid from 'cuid';
 import { connect } from 'react-redux';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';

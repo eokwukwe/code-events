@@ -14,3 +14,11 @@ export const createNewEvent = (user, photoURL, event) => ({
 		},
 	},
 });
+
+export const objectToArray = object => {
+	if (object) {
+		return Object.entries(object).map(entry =>
+			Object.assign({}, entry[1], { id: entry[0] }),
+		);
+	}
+};

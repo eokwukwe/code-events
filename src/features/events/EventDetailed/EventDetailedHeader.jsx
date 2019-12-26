@@ -43,7 +43,7 @@ export const EventDetailedHeader = ({ event }) => {
 								/>
 								<p>
 									{event.date &&
-										format(new Date(event.date), 'EEE dd MMMM yyyy h:mm a')}
+										format(event.date.toDate(), 'EEE dd MMMM yyyy h:mm a')}
 								</p>
 								<p>
 									Hosted by <strong>{event.hostedBy}</strong>
