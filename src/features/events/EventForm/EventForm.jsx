@@ -14,7 +14,7 @@ import {
 	hasLengthGreaterThan,
 } from 'revalidate';
 
-import { createEvent, updateEvent } from '../eventActions';
+import { createEvent, updateEvent, cancelToggle } from '../eventActions';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
@@ -98,7 +98,11 @@ class EventForm extends Component {
 			invalid,
 			submitting,
 			pristine,
+			event,
+			cancelToggle
 		} = this.props;
+		console.log(this.props);
+
 
 		return (
 			<Grid centered>
@@ -167,6 +171,13 @@ class EventForm extends Component {
 							>
 								Cancel
 							</Button>
+							<Button
+								type="button"
+								color={event.cancelled ? 'green' : 'red'}
+								floated="right"
+								content={event.cancelled ? 'Reactivate' : 'Cancel Event'}
+								onClick={() => cancelToggle(!event.cancelled, event.id)}
+							/>
 						</Form>
 					</Segment>
 				</Grid.Column>
@@ -175,7 +186,7 @@ class EventForm extends Component {
 	}
 }
 
-const actions = { createEvent, updateEvent };
+const actions = { createEvent, updateEvent, cancelToggle };
 
 const mapStateToProps = (state, ownProps) => {
 	const eventId = ownProps.match.params.id;
@@ -190,7 +201,7 @@ const mapStateToProps = (state, ownProps) => {
 			{};
 	}
 
-	return { initialValues: event };
+	return { initialValues: event, event };
 };
 
 export default withFirestore(

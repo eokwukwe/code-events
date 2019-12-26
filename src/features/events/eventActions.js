@@ -50,6 +50,22 @@ export const updateEvent = event => async (
 	}
 };
 
+export const cancelToggle = (cancelled, eventId) => async (
+	dispatch,
+	getState,
+	{ getFirestore },
+) => {
+	const firestore = getFirestore();
+	try {
+		await firestore.update(`events/${eventId}`, {
+			cancelled: cancelled,
+		});
+		toastr.success('Success', 'Event cancelled')
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const deleteEvent = eventId => ({
 	type: DELETE_EVENT,
 	payload: { eventId },
