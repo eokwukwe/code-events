@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Segment, Image, Item, Button, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -17,7 +17,7 @@ const eventImageTextStyle = {
 	color: 'white',
 };
 
-export const EventDetailedHeader = ({ event }) => {
+export const EventDetailedHeader = ({ event, isGoing, isHost }) => {
 	const isMobile = window.innerWidth <= 767;
 
 	return (
@@ -38,7 +38,7 @@ export const EventDetailedHeader = ({ event }) => {
 									style={{
 										color: 'white',
 										textTransform: 'capitalize',
-										fontSize: isMobile ? '1.5rem' : '2rem'
+										fontSize: isMobile ? '1.5rem' : '2rem',
 									}}
 								/>
 								<p>
@@ -54,23 +54,33 @@ export const EventDetailedHeader = ({ event }) => {
 				</Segment>
 			</Segment>
 
-			<Segment attached="bottom">
-				<Button compact size="mini">
-					Cancel My Place
-				</Button>
-				<Button compact size="mini" color="teal">
-					JOIN THIS EVENT
-				</Button>
-				<Button
-					as={Link}
-					to={`/editEvent/${event.id}`}
-					compact
-					size="mini"
-					color="orange"
-					floated="right"
-				>
-					Edit Event
-				</Button>
+			<Segment attached="bottom" clearing>
+				{!isHost && (
+					<Fragment>
+						{isGoing ? (
+							<Button compact size="mini">
+								Cancel My Place
+							</Button>
+						) : (
+							<Button compact size="mini" color="teal">
+								JOIN THIS EVENT
+							</Button>
+						)}
+					</Fragment>
+				)}
+
+				{isHost && (
+					<Button
+						as={Link}
+						to={`/editEvent/${event.id}`}
+						compact
+						size="mini"
+						color="orange"
+						floated="right"
+					>
+						Edit Event
+					</Button>
+				)}
 			</Segment>
 		</Segment.Group>
 	);

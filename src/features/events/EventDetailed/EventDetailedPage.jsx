@@ -22,12 +22,20 @@ class EventDetailedPage extends Component {
 	}
 
 	render() {
-		const { event } = this.props;
-		const attendees = event && event.attendees && objectToArray(event.attendees)
+		const { event, auth } = this.props;
+		const attendees =
+			event && event.attendees && objectToArray(event.attendees);
+		const isHost = event.hostUid === auth.uid;
+		const isGoing = attendees && attendees.some(a => a.id === auth.uid);
+
 		return (
 			<Grid stackable reversed="mobile" columns={2}>
 				<Grid.Column width={10}>
-					<EventDetailedHeader event={event} />
+					<EventDetailedHeader
+						event={event}
+						isGoing={isGoing}
+						isHost={isHost}
+					/>
 					<EventDetailedInfo event={event} />
 					<EventDetailedChat />
 				</Grid.Column>
@@ -46,11 +54,11 @@ const mapStateToProps = (state, ownProps) => {
 		state.firestore.ordered.events &&
 		state.firestore.ordered.events.length > 0
 	) {
-		event = state.firestore.ordered.events.filter(
-			event => event.id === eventId,
-		)[0] || {};
+		event =
+			state.firestore.ordered.events.filter(event => event.id === eventId)[0] ||
+			{};
 	}
-	return { event };
+	return { event, auth: state.firebase.auth };
 };
 
 export default withFirestore(connect(mapStateToProps)(EventDetailedPage));
