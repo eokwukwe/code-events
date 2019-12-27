@@ -9,12 +9,17 @@ import UserDetailedPhotos from './UserDetailedPhotos';
 import UserDetailedEvents from './UserDetailedEvents';
 import { userDetailedQuery } from '../userQueries';
 
-const UserDetailedPage = ({ profile, photos, loading }) => {
+const UserDetailedPage = ({ profile, photos, auth, match }) => {
 	const large = window.innerWidth > 520;
+	const isCurrentUser = auth.uid === match.params.id;
 	return (
 		<Grid>
 			<Grid.Column width={16}>
-				<UserDetailedBio profile={profile} large={large} />
+				<UserDetailedBio
+					profile={profile}
+					large={large}
+					isCurrentUser={isCurrentUser}
+				/>
 			</Grid.Column>
 
 			<Grid.Column width={16}>

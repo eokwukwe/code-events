@@ -1,8 +1,9 @@
 import React from 'react';
-import { Item, Label, Segment } from 'semantic-ui-react';
+import { Item, Label, Segment, Button } from 'semantic-ui-react';
 import { differenceInYears, format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
-const UserDetailedBio = ({ large, profile }) => {
+const UserDetailedBio = ({ large, profile, isCurrentUser }) => {
 	const age = profile.dateOfBirth
 		? `(${differenceInYears(Date.now(), profile.dateOfBirth.toDate())} yrs)`
 		: '';
@@ -29,6 +30,25 @@ const UserDetailedBio = ({ large, profile }) => {
 									{profile.displayName}
 								</strong>{' '}
 								<span>{age}</span>
+								{isCurrentUser ? (
+									<Button
+										as={Link}
+										to="/settings"
+										floated="right"
+										compact
+										size="mini"
+										color="green"
+										content="Edit profile"
+									/>
+								) : (
+									<Button
+										floated="right"
+										compact
+										size="mini"
+										color="teal"
+										content="Follow"
+									/>
+								)}
 							</div>
 							<p className="user-detail--content">
 								<strong>Occupation: </strong>
