@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { reduxForm, Field } from 'redux-form';
 import { withFirestore } from 'react-redux-firebase';
-import { toastr } from 'react-redux-toastr';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import {
 	combineValidators,
@@ -51,21 +50,17 @@ class EventForm extends Component {
 	};
 
 	async componentDidMount() {
-		const { firestore, match, history } = this.props;
-		let event = await firestore.get(`events/${match.params.id}`);
-
-		if (!event.exists) {
-			history.push('/events');
-			toastr.error('Sorry', 'Event not found');
-		} else {
-			this.setState({ venueLatLng: event.data().venueLatLng });
-		}
+		const { firestore, match } = this.props;
+		await firestore.setListener(`events/${match.params.id}`);
 	}
 
 	onFormSubmit = async values => {
 		values.venueLatLng = this.state.venueLatLng;
 		try {
 			if (this.props.initialValues.id) {
+				if (Object.keys(values.venueLatLng).length === 0) {
+					values.venueLatLng = this.props.event.venueLatLng;
+				}
 				this.props.updateEvent(values);
 				this.props.history.push(`/events/${this.props.initialValues.id}`);
 			} else {
@@ -99,10 +94,8 @@ class EventForm extends Component {
 			submitting,
 			pristine,
 			event,
-			cancelToggle
+			cancelToggle,
 		} = this.props;
-		console.log(this.props);
-
 
 		return (
 			<Grid centered>

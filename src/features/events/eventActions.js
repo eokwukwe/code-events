@@ -1,4 +1,4 @@
-import { DELETE_EVENT, FETCH_EVENTS } from './eventConstants';
+import { FETCH_EVENTS } from './eventConstants';
 import {
 	asyncActionStart,
 	asyncActionFinish,
@@ -56,20 +56,24 @@ export const cancelToggle = (cancelled, eventId) => async (
 	{ getFirestore },
 ) => {
 	const firestore = getFirestore();
+	const message = cancelled
+		? 'Are you sure you want to cancel this event?'
+		: 'This will reactivate this event. Are you sure?';
 	try {
-		await firestore.update(`events/${eventId}`, {
-			cancelled: cancelled,
+		toastr.confirm(message, {
+			onOk: async () => {
+				await firestore.update(`events/${eventId}`, {
+					cancelled: cancelled,
+				});
+				return cancelled
+					? toastr.success('Success', 'Event cancelled')
+					: toastr.success('Success', 'Event Reactivated');
+			},
 		});
-		toastr.success('Success', 'Event cancelled')
 	} catch (error) {
 		console.error(error);
 	}
 };
-
-export const deleteEvent = eventId => ({
-	type: DELETE_EVENT,
-	payload: { eventId },
-});
 
 export const loadEvents = () => {
 	return async dispatch => {
