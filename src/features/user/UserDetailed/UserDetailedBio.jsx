@@ -2,6 +2,7 @@ import React from 'react';
 import { Item, Label, Segment, Button } from 'semantic-ui-react';
 import { differenceInYears, format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import LazyLoad from 'react-lazyload';
 
 const UserDetailedBio = ({ large, profile, isCurrentUser }) => {
 	const age = profile.dateOfBirth
@@ -12,11 +13,22 @@ const UserDetailedBio = ({ large, profile, isCurrentUser }) => {
 			<Item.Content>
 				<Item.Group unstackable={large}>
 					<Item>
-						<Item.Image
-							avatar
-							size={large ? 'small' : 'tiny'}
-							src={profile.photoURL || '/assets/user.png'}
-						/>
+						<LazyLoad
+							height={150}
+							placeholder={
+								<Item.Image
+									avatar
+									size={large ? 'small' : 'tiny'}
+									src="/assets/user.png"
+								/>
+							}
+						>
+							<Item.Image
+								avatar
+								size={large ? 'small' : 'tiny'}
+								src={profile.photoURL || '/assets/user.png'}
+							/>
+						</LazyLoad>
 
 						<Item.Content verticalAlign={large ? 'middle' : 'top'}>
 							<div>

@@ -8,10 +8,15 @@ import UserDetailedBio from './UserDetailedBio';
 import UserDetailedPhotos from './UserDetailedPhotos';
 import UserDetailedEvents from './UserDetailedEvents';
 import { userDetailedQuery } from '../userQueries';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
-const UserDetailedPage = ({ profile, photos, auth, match }) => {
+const UserDetailedPage = ({ profile, photos, auth, match, requesting }) => {
 	const large = window.innerWidth > 520;
 	const isCurrentUser = auth.uid === match.params.id;
+	const loading = Object.values(requesting).some(a => a === true);
+
+	if (loading) return <LoadingComponent />;
+
 	return (
 		<Grid>
 			<Grid.Column width={16}>
@@ -50,7 +55,7 @@ const mapStateToProps = (state, ownProps) => {
 		userUid,
 		auth: state.firebase.auth,
 		photos: state.firestore.ordered.photos,
-		loading: state.async.loading,
+		requesting: state.firestore.status.requesting,
 	};
 };
 

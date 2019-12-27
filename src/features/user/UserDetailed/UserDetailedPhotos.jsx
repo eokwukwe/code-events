@@ -12,7 +12,7 @@ const UserDetailedPhotos = ({ photos }) => {
 					photos.map(photo => (
 						<LazyLoad
 							key={photo.id}
-							height={200}
+							height={150}
 							placeholder={<Image src="/assets/user.png" />}
 						>
 							<Image src={photo.url} bordered />
