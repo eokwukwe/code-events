@@ -114,3 +114,37 @@ export const setMainPhoto = photo => async (
 		throw new Error('Problem setting main photo');
 	}
 };
+
+export const goingToEvent = event => async (
+	dispatch,
+	getState,
+	{ getFirebase, getFirestore },
+) => {
+	const firestore = getFirestore();
+	const firebase = getFirebase();
+	const user = firebase.auth().currentUser;
+	const profile = getState().firebase.profile;
+	const attendee = {
+		going: true,
+		joinDate: firestore.FieldValue.serverTimestamp(),
+		photoURL: profile.photoURL,
+		displayName: profile.displayName,
+		host: false,
+	};
+
+	try {
+		await firestore.update(`events/${event.id}`, {
+			[`attendees.${user.uid}`]: attendee
+		})
+		await firestore.set(`event_attendee/${event.id}_${user.uid}`, {
+			eventId: event.id,
+			userUid: user.uid,
+			eventDate: event.date,
+			host: false,
+		});
+		toastr.success('Success', 'You have signed up to this event')
+	} catch (error) {
+		console.error(error);
+		toastr.error('Oops!', 'Problem signing up to this event. Please try again')
+	}
+};

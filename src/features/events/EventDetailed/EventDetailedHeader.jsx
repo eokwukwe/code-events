@@ -17,7 +17,12 @@ const eventImageTextStyle = {
 	color: 'white',
 };
 
-export const EventDetailedHeader = ({ event, isGoing, isHost }) => {
+export const EventDetailedHeader = ({
+	event,
+	isGoing,
+	isHost,
+	goingToEvent,
+}) => {
 	const isMobile = window.innerWidth <= 767;
 
 	return (
@@ -62,7 +67,12 @@ export const EventDetailedHeader = ({ event, isGoing, isHost }) => {
 								Cancel My Place
 							</Button>
 						) : (
-							<Button compact size="mini" color="teal">
+							<Button
+								onClick={() => goingToEvent(event)}
+								compact
+								size="mini"
+								color="teal"
+							>
 								JOIN THIS EVENT
 							</Button>
 						)}

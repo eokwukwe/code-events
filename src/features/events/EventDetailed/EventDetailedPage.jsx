@@ -9,20 +9,21 @@ import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
 import { toastr } from 'react-redux-toastr';
 import { objectToArray } from '../../../app/common/util/helpers';
+import { goingToEvent } from '../../user/userActions';
 
 class EventDetailedPage extends Component {
 	async componentDidMount() {
-		const { firestore, match, history } = this.props;
-		let event = await firestore.get(`events/${match.params.id}`);
+		const { firestore, match } = this.props;
+		await firestore.setListener(`events/${match.params.id}`);
+	}
 
-		if (!event.exists) {
-			history.push('/events');
-			toastr.error('Sorry', 'Event not found');
-		}
+	async componentWillUnmount() {
+		const { firestore, match } = this.props;
+		await firestore.unsetListener(`events/${match.params.id}`);
 	}
 
 	render() {
-		const { event, auth } = this.props;
+		const { event, auth, goingToEvent } = this.props;
 		const attendees =
 			event && event.attendees && objectToArray(event.attendees);
 		const isHost = event.hostUid === auth.uid;
@@ -35,6 +36,7 @@ class EventDetailedPage extends Component {
 						event={event}
 						isGoing={isGoing}
 						isHost={isHost}
+						goingToEvent={goingToEvent}
 					/>
 					<EventDetailedInfo event={event} />
 					<EventDetailedChat />
@@ -46,6 +48,8 @@ class EventDetailedPage extends Component {
 		);
 	}
 }
+
+const actions = { goingToEvent };
 
 const mapStateToProps = (state, ownProps) => {
 	const eventId = ownProps.match.params.id;
@@ -61,4 +65,6 @@ const mapStateToProps = (state, ownProps) => {
 	return { event, auth: state.firebase.auth };
 };
 
-export default withFirestore(connect(mapStateToProps)(EventDetailedPage));
+export default withFirestore(
+	connect(mapStateToProps, actions)(EventDetailedPage),
+);
