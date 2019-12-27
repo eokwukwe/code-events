@@ -7,9 +7,8 @@ import EventDetailedHeader from './EventDetailedHeader';
 import EventDetailedInfo from './EventDetailedInfo';
 import EventDetailedChat from './EventDetailedChat';
 import EventDetailedSidebar from './EventDetailedSidebar';
-import { toastr } from 'react-redux-toastr';
 import { objectToArray } from '../../../app/common/util/helpers';
-import { goingToEvent } from '../../user/userActions';
+import { goingToEvent, cancelGoingToEvent } from '../../user/userActions';
 
 class EventDetailedPage extends Component {
 	async componentDidMount() {
@@ -23,7 +22,7 @@ class EventDetailedPage extends Component {
 	}
 
 	render() {
-		const { event, auth, goingToEvent } = this.props;
+		const { event, auth, goingToEvent, cancelGoingToEvent } = this.props;
 		const attendees =
 			event && event.attendees && objectToArray(event.attendees);
 		const isHost = event.hostUid === auth.uid;
@@ -37,6 +36,7 @@ class EventDetailedPage extends Component {
 						isGoing={isGoing}
 						isHost={isHost}
 						goingToEvent={goingToEvent}
+						cancelGoingToEvent={cancelGoingToEvent}
 					/>
 					<EventDetailedInfo event={event} />
 					<EventDetailedChat />
@@ -49,7 +49,7 @@ class EventDetailedPage extends Component {
 	}
 }
 
-const actions = { goingToEvent };
+const actions = { goingToEvent, cancelGoingToEvent };
 
 const mapStateToProps = (state, ownProps) => {
 	const eventId = ownProps.match.params.id;

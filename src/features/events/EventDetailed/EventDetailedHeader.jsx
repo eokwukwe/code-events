@@ -22,6 +22,7 @@ export const EventDetailedHeader = ({
 	isGoing,
 	isHost,
 	goingToEvent,
+	cancelGoingToEvent,
 }) => {
 	const isMobile = window.innerWidth <= 767;
 
@@ -63,7 +64,11 @@ export const EventDetailedHeader = ({
 				{!isHost && (
 					<Fragment>
 						{isGoing ? (
-							<Button compact size="mini">
+							<Button
+								onClick={() => cancelGoingToEvent(event)}
+								compact
+								size="mini"
+							>
 								Cancel My Place
 							</Button>
 						) : (
