@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { firestoreConnect, isLoaded } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
 
 import EventList from '../EventList/EventList';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
 import EventActivity from '../EventActivity/EventActivity';
+import { getEventsForDashboard } from '../eventActions';
 
-const EventDashboard = ({ events, requesting }) => {
-	if (!isLoaded(events)) return <LoadingComponent />;
+const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
+	useEffect(() => {
+		getEventsForDashboard();
+	}, [getEventsForDashboard]);
+
+	if (loading) return <LoadingComponent />;
+
 	return (
 		<Grid stackable reversed="mobile" columns={2}>
 			<Grid.Column width={10}>
-				<EventList events={events} requesting={requesting} />
+				<EventList events={events} />
 			</Grid.Column>
 			<Grid.Column width={6}>
 				<EventActivity />
@@ -21,10 +27,14 @@ const EventDashboard = ({ events, requesting }) => {
 	);
 };
 
+const actions = { getEventsForDashboard };
+
 const mapStateToProps = state => ({
-	events: state.firestore.ordered.events,
+	events: state.events,
+	loading: state.async.loading,
 });
 
-export default connect(mapStateToProps)(
-	firestoreConnect([{ collection: 'events' }])(EventDashboard),
-);
+export default connect(
+	mapStateToProps,
+	actions,
+)(firestoreConnect([{ collection: 'events' }])(EventDashboard));

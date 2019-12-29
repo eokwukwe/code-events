@@ -1,7 +1,6 @@
 import React from 'react';
-import { Segment, Header, Image, Placeholder } from 'semantic-ui-react';
+import { Segment, Header, Image } from 'semantic-ui-react';
 import LazyLoad from 'react-lazyload';
-import PlaceholderComponent from '../../../app/layout/PlaceholderComponent';
 
 const UserDetailedPhotos = ({ photos }) => {
 	return (
