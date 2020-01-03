@@ -27,13 +27,14 @@ const UserDetailedPage = ({
 	const loading = Object.values(requesting).some(a => a === true);
 	useEffect(() => {
 		const getEvents = async () => {
-			const events = await getUserEvents(userUid);
+			await getUserEvents(userUid);
 		};
-		// return () => {
-		// 	cleanup
-		// };
 		getEvents();
 	}, [getUserEvents, userUid]);
+
+	const changeTab = (e, data) => {
+		getUserEvents(userUid, data.activeIndex);
+	};
 
 	if (loading) return <LoadingComponent />;
 
@@ -52,7 +53,11 @@ const UserDetailedPage = ({
 			</Grid.Column>
 
 			<Grid.Column width={16}>
-				<UserDetailedEvents events={events} eventsLoading={eventsLoading} />
+				<UserDetailedEvents
+					events={events}
+					eventsLoading={eventsLoading}
+					changeTab={changeTab}
+				/>
 			</Grid.Column>
 		</Grid>
 	);
