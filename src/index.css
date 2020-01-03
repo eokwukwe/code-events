@@ -158,3 +158,7 @@ body {
 	color: #646363
 }
 
+/* tab content */
+.tab-content {
+    border: none !important;
+}

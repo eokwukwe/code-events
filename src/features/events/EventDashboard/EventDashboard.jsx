@@ -66,7 +66,7 @@ class EventDashboard extends Component {
 					</Grid.Column>
 				</Grid>
 				<Grid>
-					<Grid.Column tablet={16} computer={10}>
+					<Grid.Column mobile={16} tablet={10} computer={10}>
 						<Loader active={loading} />
 					</Grid.Column>
 				</Grid>
