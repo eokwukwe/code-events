@@ -1,8 +1,10 @@
 import React from 'react';
 import { Segment, Item, Icon, Button, List, Label } from 'semantic-ui-react';
-import EventListAttendee from './EventListAttendee';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import LazyLoad from 'react-lazyload'
+
+import EventListAttendee from './EventListAttendee';
 import { objectToArray } from '../../../app/common/util/helpers';
 
 const EventsListItem = ({ event }) => {
@@ -11,7 +13,21 @@ const EventsListItem = ({ event }) => {
 			<Segment>
 				<Item.Group unstackable>
 					<Item>
-						<Item.Image size="tiny" circular src={event.hostPhotoURL} />
+						<LazyLoad
+							height={150}
+							placeholder={<Item.Image src="/assets/user.png" />}
+						>
+							<Item.Image
+								size="tiny"
+								circular
+								src={event.hostPhotoURL}
+							/>
+						</LazyLoad>
+						{/* <Item.Image
+							size="tiny"
+							circular
+							src={event.hostPhotoURL}
+						/> */}
 						<Item.Content verticalAlign="middle">
 							<Item.Header
 								as={Link}
