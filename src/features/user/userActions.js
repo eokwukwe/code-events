@@ -7,6 +7,7 @@ import {
 	asyncActionError,
 } from '../async/asyncActions';
 import firebase from '../../app/config/firebase';
+import { FETCH_EVENTS } from '../events/eventConstants';
 
 export const updateProfile = user => async (
 	dispatch,
@@ -177,7 +178,7 @@ export const getUserEvents = (userUid, activeTab) => async (
 	dispatch(asyncActionStart());
 	const firestore = firebase.firestore();
 	const today = new Date(Date.now());
-	let eventsRef = firestore.collection('event_attendee');
+	const eventsRef = firestore.collection('event_attendee');
 	let query;
 
 	switch (activeTab) {
@@ -206,9 +207,18 @@ export const getUserEvents = (userUid, activeTab) => async (
 	}
 
 	try {
-		let querySnapshot = await query.get();
+		const querySnapshot = await query.get();
+		let events = [];
+		for (let i = 0; i < querySnapshot.docs.length; i++) {
+			const event = await firestore
+				.collection('events')
+				.doc(querySnapshot.docs[i].data().eventId)
+				.get();
 
-		console.log('querysnapshot', querySnapshot);
+			events.push({ ...event.data(), id: event.id });
+		}
+
+		dispatch({ type: FETCH_EVENTS, payload: { events } });
 		dispatch(asyncActionFinish());
 	} catch (error) {
 		console.error(error);

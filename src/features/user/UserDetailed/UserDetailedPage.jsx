@@ -16,6 +16,8 @@ const UserDetailedPage = ({
 	photos,
 	auth,
 	match,
+	events,
+	eventsLoading,
 	userUid,
 	requesting,
 	getUserEvents,
@@ -23,11 +25,9 @@ const UserDetailedPage = ({
 	const large = window.innerWidth > 520;
 	const isCurrentUser = auth.uid === match.params.id;
 	const loading = Object.values(requesting).some(a => a === true);
-
 	useEffect(() => {
 		const getEvents = async () => {
-			const events = await getUserEvents(userUid, 3);
-			console.log(events);
+			const events = await getUserEvents(userUid);
 		};
 		// return () => {
 		// 	cleanup
@@ -52,7 +52,7 @@ const UserDetailedPage = ({
 			</Grid.Column>
 
 			<Grid.Column width={16}>
-				<UserDetailedEvents />
+				<UserDetailedEvents events={events} eventsLoading={eventsLoading} />
 			</Grid.Column>
 		</Grid>
 	);
@@ -70,6 +70,8 @@ const mapStateToProps = (state, ownProps) => {
 	}
 	return {
 		profile,
+		events: state.events,
+		eventsLoading: state.async.loading,
 		userUid: ownProps.match.params.id,
 		auth: state.firebase.auth,
 		photos: state.firestore.ordered.photos,
