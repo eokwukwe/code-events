@@ -97,11 +97,11 @@ export const getEventsForDashboard = lastEvent => async (
 					// .where('date', '>=', today)
 					.orderBy('date')
 					.startAfter(startAfter)
-					.limit(2)
+					.limit(3)
 			: eventsRef
 					// .where('date', '>=', today)
 					.orderBy('date')
-					.limit(2);
+					.limit(3);
 
 		const querySnapshots = await query.get();
 		if (querySnapshots.docs.length === 0) {
