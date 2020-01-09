@@ -162,3 +162,9 @@ body {
 .tab-content {
     border: none !important;
 }
+
+/* comment reply form */
+.ui.comments .reply.form textarea {
+    font-size: 1em;
+    height: 4.5rem !important;
+}
