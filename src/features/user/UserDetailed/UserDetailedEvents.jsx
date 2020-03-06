@@ -1,14 +1,8 @@
 import React from 'react';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
-import { Card, Header, Image, Menu, Segment, Tab } from 'semantic-ui-react';
+import { Card, Header, Image, Segment, Tab } from 'semantic-ui-react';
 
-// const panes = [
-// 	{ menuItem: 'All', pane: { key: 'allEvents' } },
-// 	{ menuItem: 'Past', pane: { key: 'pastEvents' } },
-// 	{ menuItem: 'Future', pane: { key: 'futureEvents' } },
-// 	{ menuItem: 'Hosting', pane: { key: 'hostedEvents' } },
-// ];
 
 const UserDetailedEvents = ({ events, eventsLoading, changeTab }) => {
 	const xtraSmall = window.innerWidth <= 520;

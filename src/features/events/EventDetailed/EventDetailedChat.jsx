@@ -4,7 +4,7 @@ import { formatDistance } from 'date-fns';
 import { Segment, Header, Comment } from 'semantic-ui-react';
 
 import EventDetailedChatForm from './EventDetailedChatForm';
-import EventDetailedComment from './EventDetailedComment';
+// import EventDetailedComment from './EventDetailedComment';
 
 class EventDetailedChat extends Component {
 	state = {
