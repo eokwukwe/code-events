@@ -120,6 +120,7 @@ const PhotosPage = ({
 					photos={photos}
 					deletePhoto={handleDeletePhoto}
 					setMainPhoto={handleSetMainPhoto}
+					loading={loading}
 				/>
 			)}
 		</Segment>
