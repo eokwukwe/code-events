@@ -21,6 +21,7 @@ export const EventDetailedHeader = ({
 	event,
 	isGoing,
 	isHost,
+	loading,
 	goingToEvent,
 	cancelGoingToEvent,
 }) => {
@@ -85,6 +86,7 @@ export const EventDetailedHeader = ({
 								compact
 								size="mini"
 								color="teal"
+								loading={loading}
 							>
 								JOIN THIS EVENT
 							</Button>
