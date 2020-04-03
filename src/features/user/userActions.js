@@ -139,7 +139,6 @@ export const setMainPhoto = photo => async (dispatch, getState) => {
         });
       }
     }
-    console.log({ batch });
     await batch.commit();
     dispatch(asyncActionFinish());
   } catch (error) {
