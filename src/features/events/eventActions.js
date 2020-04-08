@@ -9,7 +9,7 @@ import {
   asyncActionError,
 } from '../async/asyncActions';
 
-export const createEvent = event => async (
+export const createEvent = (event) => async (
   dispatch,
   getState,
   { getFirestore, getFirebase },
@@ -21,6 +21,7 @@ export const createEvent = event => async (
   const photoURL = getState().firebase.profile.photoURL;
   const newEvent = createNewEvent(user, photoURL, event);
   try {
+    dispatch(asyncActionStart());
     let createdEvent = await firestore.add('events', newEvent);
     // create a lookup table for events
     await firestore.set(`event_attendee/${createdEvent.id}_${user.uid}`, {
@@ -30,14 +31,15 @@ export const createEvent = event => async (
       host: true,
     });
     toastr.success('Success!', 'Event has been created');
+    dispatch(asyncActionFinish());
     return createdEvent;
   } catch (error) {
-    console.error(error);
+    dispatch(asyncActionError());
     toastr.error('Oops', 'Something went wrong');
   }
 };
 
-export const updateEvent = event => async (dispatch, getState) => {
+export const updateEvent = (event) => async (dispatch, getState) => {
   const firestore = firebase.firestore();
   try {
     dispatch(asyncActionStart());
@@ -103,7 +105,7 @@ export const cancelToggle = (cancelled, eventId) => async (
   }
 };
 
-export const getEventsForDashboard = lastEvent => async (
+export const getEventsForDashboard = (lastEvent) => async (
   dispatch,
   getState,
 ) => {
@@ -114,10 +116,7 @@ export const getEventsForDashboard = lastEvent => async (
     dispatch(asyncActionStart());
     const startAfter =
       lastEvent &&
-      (await firestore
-        .collection('events')
-        .doc(lastEvent.id)
-        .get());
+      (await firestore.collection('events').doc(lastEvent.id).get());
 
     const query = lastEvent
       ? eventsRef
@@ -125,10 +124,7 @@ export const getEventsForDashboard = lastEvent => async (
           .orderBy('date')
           .startAfter(startAfter)
           .limit(3)
-      : eventsRef
-          .where('date', '>=', today)
-          .orderBy('date')
-          .limit(3);
+      : eventsRef.where('date', '>=', today).orderBy('date').limit(3);
 
     const querySnapshots = await query.get();
     if (querySnapshots.docs.length === 0) {

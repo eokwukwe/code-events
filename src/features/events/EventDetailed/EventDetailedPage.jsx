@@ -15,6 +15,7 @@ import {
   objectToArray,
   createDataTree,
 } from '../../../app/common/util/helpers';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 
 class EventDetailedPage extends Component {
   async componentDidMount() {
@@ -37,6 +38,8 @@ class EventDetailedPage extends Component {
       eventChat,
       loading,
       openModal,
+      requesting,
+      match,
     } = this.props;
     const attendees =
       event && event.attendees && objectToArray(event.attendees);
@@ -44,6 +47,9 @@ class EventDetailedPage extends Component {
     const isGoing = attendees && attendees.some((a) => a.id === auth.uid);
     const chatTree = !isEmpty(eventChat) && createDataTree(eventChat);
     const authenticated = auth.isLoaded && !auth.isEmpty;
+    const loadingEvent = requesting[`events/${match.params.id}`];
+
+    if (loadingEvent) return <LoadingComponent />;
 
     return (
       <Grid stackable reversed="mobile" columns={2}>
@@ -96,6 +102,7 @@ const mapStateToProps = (state, ownProps) => {
   }
   return {
     event,
+    requesting: state.firestore.status.requesting,
     loading: state.async.loading,
     auth: state.firebase.auth,
     eventChat:
