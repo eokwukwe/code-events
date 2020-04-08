@@ -12,6 +12,7 @@ import UserDetailedPage from '../../features/user/UserDetailed/UserDetailedPage'
 import ModalManager from '../../features/modals/ModalManager';
 import NavbarContainer from '../../features/nav/Navbar/NavbarContainer';
 import { UserIsAuthenticated } from '../../features/auth/authWrapper';
+import NotFound from './NotFound';
 
 class App extends Component {
   render() {
@@ -42,6 +43,9 @@ class App extends Component {
                   <Route
                     path={['/createEvent', '/editEvent/:id']}
                     component={UserIsAuthenticated(EventForm)}
+                  />
+                  <Route
+                    component={NotFound}
                   />
                 </Switch>
               </Container>

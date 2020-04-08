@@ -16,6 +16,7 @@ import {
   createDataTree,
 } from '../../../app/common/util/helpers';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import NotFound from '../../../app/layout/NotFound';
 
 class EventDetailedPage extends Component {
   async componentDidMount() {
@@ -50,6 +51,8 @@ class EventDetailedPage extends Component {
     const loadingEvent = requesting[`events/${match.params.id}`];
 
     if (loadingEvent) return <LoadingComponent />;
+
+    if (Object.keys(event).length === 0) return <NotFound />;
 
     return (
       <Grid stackable reversed="mobile" columns={2}>
