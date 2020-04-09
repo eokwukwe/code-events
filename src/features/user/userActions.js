@@ -7,9 +7,9 @@ import {
   asyncActionError,
 } from '../async/asyncActions';
 import firebase from '../../app/config/firebase';
-import { FETCH_EVENTS } from '../events/eventConstants';
+import { FETCH_USER_EVENTS } from '../events/eventConstants';
 
-export const updateProfile = user => async (
+export const updateProfile = (user) => async (
   dispatch,
   getState,
   { getFirebase },
@@ -80,7 +80,7 @@ export const uploadProfileImage = (file, fileName) => async (
   }
 };
 
-export const deletePhoto = photo => async (
+export const deletePhoto = (photo) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore },
@@ -103,7 +103,7 @@ export const deletePhoto = photo => async (
   }
 };
 
-export const setMainPhoto = photo => async (dispatch, getState) => {
+export const setMainPhoto = (photo) => async (dispatch, getState) => {
   const firestore = firebase.firestore();
   const user = firebase.auth().currentUser;
   const today = new Date();
@@ -148,7 +148,7 @@ export const setMainPhoto = photo => async (dispatch, getState) => {
   }
 };
 
-export const goingToEvent = event => async (dispatch, getState) => {
+export const goingToEvent = (event) => async (dispatch, getState) => {
   dispatch(asyncActionStart());
   const firestore = firebase.firestore();
   const user = firebase.auth().currentUser;
@@ -168,7 +168,7 @@ export const goingToEvent = event => async (dispatch, getState) => {
       .doc(`${event.id}_${user.uid}`);
 
     // Transaction
-    await firestore.runTransaction(async transaction => {
+    await firestore.runTransaction(async (transaction) => {
       await transaction.get(eventDocRef);
       await transaction.update(eventDocRef, {
         [`attendees.${user.uid}`]: attendee,
@@ -190,7 +190,7 @@ export const goingToEvent = event => async (dispatch, getState) => {
   }
 };
 
-export const cancelGoingToEvent = event => async (
+export const cancelGoingToEvent = (event) => async (
   dispatch,
   getState,
   { getFirebase, getFirestore },
@@ -257,7 +257,7 @@ export const getUserEvents = (userUid, activeTab) => async (
       events.push({ ...event.data(), id: event.id });
     }
 
-    dispatch({ type: FETCH_EVENTS, payload: { events } });
+    dispatch({ type: FETCH_USER_EVENTS, payload: { events } });
     dispatch(asyncActionFinish());
   } catch (error) {
     console.error(error);
