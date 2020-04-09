@@ -43,7 +43,11 @@ class EventDetailedPage extends Component {
       match,
     } = this.props;
     const attendees =
-      event && event.attendees && objectToArray(event.attendees);
+      event &&
+      event.attendees &&
+      objectToArray(event.attendees).sort(
+        (a, b) => a.joinDate.toDate() - b.joinDate.toDate(),
+      );
     const isHost = event.hostUid === auth.uid;
     const isGoing = attendees && attendees.some((a) => a.id === auth.uid);
     const chatTree = !isEmpty(eventChat) && createDataTree(eventChat);
