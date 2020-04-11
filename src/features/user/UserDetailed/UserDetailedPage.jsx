@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { firestoreConnect, isEmpty } from 'react-redux-firebase';
 
-import { getUserEvents } from '../userActions';
+import { getUserEvents, followUser } from '../userActions';
 import UserDetailedBio from './UserDetailedBio';
 import { userDetailedQuery } from '../userQueries';
 import UserDetailedPhotos from './UserDetailedPhotos';
@@ -21,6 +21,7 @@ const UserDetailedPage = ({
   userUid,
   requesting,
   getUserEvents,
+  followUser
 }) => {
   const large = window.innerWidth > 520;
   const isCurrentUser = auth.uid === match.params.id;
@@ -45,6 +46,7 @@ const UserDetailedPage = ({
           profile={profile}
           large={large}
           isCurrentUser={isCurrentUser}
+          followUser={followUser}
         />
       </Grid.Column>
 
@@ -84,7 +86,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const actions = { getUserEvents };
+const actions = { getUserEvents, followUser };
 
 export default compose(
   connect(mapStateToProps, actions),
