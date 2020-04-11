@@ -18,7 +18,7 @@ const newActivity = (type, event, id) => {
 
 exports.createActivity = functions.firestore
   .document('events/{eventId}')
-  .onCreate(event => {
+  .onCreate((event) => {
     let newEvent = event.data();
 
     const activity = newActivity('newEvent', newEvent, event.id);
@@ -27,10 +27,10 @@ exports.createActivity = functions.firestore
       .firestore()
       .collection('activity')
       .add(activity)
-      .then(docRef => {
+      .then((docRef) => {
         return console.log('Activity created with ID', docRef.id);
       })
-      .catch(error => {
+      .catch((error) => {
         return console.log('Error adding activity', error);
       });
   });
@@ -57,10 +57,40 @@ exports.cancelActivity = functions.firestore
       .firestore()
       .collection('activity')
       .add(activity)
-      .then(docRef => {
+      .then((docRef) => {
         return console.log('Activity cancelled with ID', docRef.id);
       })
-      .catch(error => {
+      .catch((error) => {
         return console.log('Error cancelling activity', error);
       });
+  });
+
+exports.userFollowing = functions.firestore
+  .document('users/{followerUid}/following/{followingUid}')
+  .onCreate((event, context) => {
+    console.log('following function trigger');
+    const followerUid = context.params.followerUid;
+    const followingUid = context.params.followingUid;
+
+    const followerDoc = admin.firestore().collection('users').doc(followerUid);
+
+    console.log({ followerDoc });
+
+    return followerDoc.get().then((doc) => {
+      let userData = doc.data();
+      console.log({ userData });
+      let follower = {
+        displayName: userData.displayName,
+        photoURL: userData.photoURL || '/assets/user.png',
+        city: userData.city || 'Unknown City',
+      };
+
+      return admin
+        .firestore()
+        .collection('users')
+        .doc(followingUid)
+        .collection('followers')
+        .doc(followerUid)
+        .set(follower);
+    });
   });
