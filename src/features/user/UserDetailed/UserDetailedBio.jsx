@@ -4,7 +4,14 @@ import { differenceInYears, format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import LazyLoad from 'react-lazyload';
 
-const UserDetailedBio = ({ large, profile, isCurrentUser, followUser }) => {
+const UserDetailedBio = ({
+  large,
+  profile,
+  isCurrentUser,
+  followUser,
+  isFollowing,
+  unfollowUser
+}) => {
   const age = profile.dateOfBirth
     ? `(${differenceInYears(Date.now(), profile.dateOfBirth.toDate())} yrs)`
     : '';
@@ -42,7 +49,7 @@ const UserDetailedBio = ({ large, profile, isCurrentUser, followUser }) => {
                   {profile.displayName}
                 </strong>{' '}
                 <span>{age}</span>
-                {isCurrentUser ? (
+                {isCurrentUser && (
                   <Button
                     as={Link}
                     to="/settings"
@@ -52,7 +59,8 @@ const UserDetailedBio = ({ large, profile, isCurrentUser, followUser }) => {
                     color="green"
                     content="Edit profile"
                   />
-                ) : (
+                )}
+                {!isCurrentUser && !isFollowing && (
                   <Button
                     floated="right"
                     compact
@@ -60,6 +68,16 @@ const UserDetailedBio = ({ large, profile, isCurrentUser, followUser }) => {
                     color="teal"
                     content="Follow"
                     onClick={() => followUser(profile)}
+                  />
+                )}
+                {!isCurrentUser && isFollowing && (
+                  <Button
+                    floated="right"
+                    compact
+                    size="mini"
+                    color="orange"
+                    content="Unfollow"
+                    onClick={() => unfollowUser(profile)}
                   />
                 )}
               </div>

@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { Grid } from 'semantic-ui-react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
 import { firestoreConnect, isEmpty } from 'react-redux-firebase';
 
-import { getUserEvents, followUser } from '../userActions';
 import UserDetailedBio from './UserDetailedBio';
 import { userDetailedQuery } from '../userQueries';
 import UserDetailedPhotos from './UserDetailedPhotos';
 import UserDetailedEvents from './UserDetailedEvents';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
+import { getUserEvents, followUser, unfollowUser } from '../userActions';
 
 const UserDetailedPage = ({
   profile,
@@ -21,11 +21,15 @@ const UserDetailedPage = ({
   userUid,
   requesting,
   getUserEvents,
-  followUser
+  followUser,
+  following,
+  unfollowUser
 }) => {
   const large = window.innerWidth > 520;
   const isCurrentUser = auth.uid === match.params.id;
   const loading = Object.values(requesting).some((a) => a === true);
+  const isFollowing = !isEmpty(following)
+
   useEffect(() => {
     const getEvents = async () => {
       await getUserEvents(userUid);
@@ -47,6 +51,8 @@ const UserDetailedPage = ({
           large={large}
           isCurrentUser={isCurrentUser}
           followUser={followUser}
+          isFollowing={isFollowing}
+          unfollowUser={unfollowUser}
         />
       </Grid.Column>
 
@@ -83,12 +89,15 @@ const mapStateToProps = (state, ownProps) => {
     auth: state.firebase.auth,
     photos: state.firestore.ordered.photos,
     requesting: state.firestore.status.requesting,
+    following: state.firestore.ordered.following
   };
 };
 
-const actions = { getUserEvents, followUser };
+const actions = { getUserEvents, followUser, unfollowUser };
 
 export default compose(
   connect(mapStateToProps, actions),
-  firestoreConnect((auth, userUid) => userDetailedQuery(auth, userUid)),
+  firestoreConnect((auth, userUid, match) =>
+    userDetailedQuery(auth, userUid, match),
+  ),
 )(UserDetailedPage);

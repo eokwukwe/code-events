@@ -68,29 +68,41 @@ exports.cancelActivity = functions.firestore
 exports.userFollowing = functions.firestore
   .document('users/{followerUid}/following/{followingUid}')
   .onCreate((event, context) => {
-    console.log('following function trigger');
     const followerUid = context.params.followerUid;
     const followingUid = context.params.followingUid;
-
     const followerDoc = admin.firestore().collection('users').doc(followerUid);
 
-    console.log({ followerDoc });
+    return followerDoc
+      .get()
+      .then((doc) => {
+        let userData = doc.data();
+        let follower = {
+          displayName: userData.displayName,
+          photoURL: userData.photoURL || '/assets/user.png',
+          city: userData.city || 'Unknown City',
+        };
 
-    return followerDoc.get().then((doc) => {
-      let userData = doc.data();
-      console.log({ userData });
-      let follower = {
-        displayName: userData.displayName,
-        photoURL: userData.photoURL || '/assets/user.png',
-        city: userData.city || 'Unknown City',
-      };
+        return admin
+          .firestore()
+          .collection('users')
+          .doc(followingUid)
+          .collection('followers')
+          .doc(followerUid)
+          .set(follower);
+      })
+      .catch((error) => console.error(error));
+  });
 
-      return admin
-        .firestore()
-        .collection('users')
-        .doc(followingUid)
-        .collection('followers')
-        .doc(followerUid)
-        .set(follower);
-    });
+exports.unfollowUser = functions.firestore
+  .document('users/{followerUid}/following/{followingUid}')
+  .onDelete((event, content) => {
+    return admin
+      .firestore()
+      .collection('users')
+      .doc(content.params.followingUid)
+      .collection('followers')
+      .doc(content.params.followerUid)
+      .delete()
+      .then(() => console.log('doc deleted'))
+      .catch((error) => console.error(error));
   });

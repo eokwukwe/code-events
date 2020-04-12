@@ -168,3 +168,62 @@
     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1128:14)
 [error] 
 [error] Error: Server Error. connect ETIMEDOUT 216.58.223.202:443
+[debug] [2020-04-12T00:49:32.966Z] ----------------------------------------------------------------------
+[debug] [2020-04-12T00:49:32.968Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\PEOPLE\AppData\Local\Yarn\Data\global\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2020-04-12T00:49:32.968Z] CLI Version:   7.14.0
+[debug] [2020-04-12T00:49:32.968Z] Platform:      win32
+[debug] [2020-04-12T00:49:32.968Z] Node Version:  v12.13.0
+[debug] [2020-04-12T00:49:32.969Z] Time:          Sun Apr 12 2020 01:49:32 GMT+0100 (West Africa Standard Time)
+[debug] [2020-04-12T00:49:32.969Z] ----------------------------------------------------------------------
+[debug] [2020-04-12T00:49:32.969Z] 
+[debug] [2020-04-12T00:49:32.976Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-04-12T00:49:32.977Z] > authorizing via signed-in user
+[debug] [2020-04-12T00:49:32.977Z] [iam] checking project codevents-8f00b for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2020-04-12T00:49:32.978Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/codevents-8f00b:testIamPermissions  
+
+[debug] [2020-04-12T00:49:34.578Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'codevents-8f00b'...
+[info] 
+[info] i  deploying functions
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] +  functions: Finished running predeploy script.
+[debug] [2020-04-12T00:49:38.710Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "firebase-admin": "^8.6.0",
+    "firebase-functions": "^3.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "firebase-functions-test": "^0.1.6"
+  },
+  "private": true
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2020-04-12T00:49:38.721Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/codevents-8f00b/services/cloudfunctions.googleapis.com  
+ 
+[debug] [2020-04-12T00:49:38.722Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/codevents-8f00b/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2020-04-12T00:49:40.622Z] <<< HTTP RESPONSE 200
+[debug] [2020-04-12T00:49:40.707Z] <<< HTTP RESPONSE 200
+[info] +  functions: all necessary APIs are enabled
+[debug] [2020-04-12T00:49:40.708Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/codevents-8f00b/adminSdkConfig  
+ 
+[debug] [2020-04-12T00:50:01.874Z] Error: connect ETIMEDOUT 216.58.223.202:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1128:14)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 216.58.223.202:443
