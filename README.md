@@ -43,7 +43,7 @@ Follow these steps to set up the project in development mode
 
 ## Deployment
 
-App is deployed on firebase
+App is deployed on firebase - [CodeEvents](https://codevents-8f00b.firebaseapp.com)
 
 ## License
 **MIT**
